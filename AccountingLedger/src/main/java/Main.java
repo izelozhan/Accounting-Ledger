@@ -6,7 +6,6 @@ public class Main {
 
 //        home.showOptionsMenu();
         String userOption = home.receiveUserOption();
-        System.out.println(userOption);
         //option is ledger => call ledger
         // reports => call reports
 
