@@ -10,11 +10,12 @@ public class Home {
     Scanner scanner = new Scanner(System.in);
     DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+    Ledger ledger = new Ledger();
 
     boolean showScreen = true;
 
     public void showHomeScreenOptionsMenu() {
-        printTitle("ACCOUNTING LEDGER APPLICATION");
+        Utils.printTitle("ACCOUNTING LEDGER APPLICATION");
         System.out.println("Welcome to our Accounting Ledger Application! Select an option to start!");
         System.out.println("D: Add Deposit");
         System.out.println("P: Make Payment (Debit)");
@@ -25,6 +26,7 @@ public class Home {
     public String receiveUserOption() {
         //take user's option and assign it to a new String.
         String selectedOption = "INVALID";
+
         while(selectedOption.equals("INVALID")) {
             String userOption = scanner.nextLine().toUpperCase();
             selectedOption = switch (userOption) {
@@ -76,13 +78,13 @@ public class Home {
     }
 
     public void addDeposit() {
-        printTitle("Add Deposit");
+        Utils.printTitle("ADD DEPOSIT");
         Transaction transaction = createTransaction(false);
         saveTransaction(transaction);
     }
 
     public void makePayment() {
-        printTitle("Make Payment");
+        Utils.printTitle("MAKE PAYMENT");
         Transaction transaction =  createTransaction(true);
         saveTransaction(transaction);
     }
@@ -126,14 +128,11 @@ public class Home {
     }
 
     public void showLedgerScreen() {
-        System.out.println("Show ledger screen");
-        showScreen = false;
+        ledger.showLedgerScreenOptionsMenu();
+        String userOption = ledger.receiveUserOption();
 
     }
 
-    public void printTitle(String title) {
-        System.out.println("\n=== " + title + " ===");
-    }
 
     public void exit() {
         System.out.println("Exiting the application, see you next time!");
