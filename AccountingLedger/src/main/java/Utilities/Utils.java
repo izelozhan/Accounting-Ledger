@@ -1,4 +1,5 @@
-import java.util.Scanner;
+package Utilities;
+
 
 public class Utils {
 

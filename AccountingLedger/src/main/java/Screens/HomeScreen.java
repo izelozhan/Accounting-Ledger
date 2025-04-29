@@ -1,14 +1,19 @@
+package Screens;
+
+import Models.Transaction;
+import Utilities.Utils;
+
 import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
-public class Home {
+public class HomeScreen {
     Scanner scanner = new Scanner(System.in);
     DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-    Ledger ledger = new Ledger();
+    LedgerScreen ledger = new LedgerScreen();
 
     boolean showScreen = true;
 
@@ -66,7 +71,7 @@ public class Home {
             amount = -amount;
         }
 
-        LocalDate date = LocalDate.now();
+        LocalDate date = LocalDate.now(); //offline dates
         LocalTime time = LocalTime.now();
 
         String formattedDate = date.format(dateFormatter);
@@ -108,7 +113,7 @@ public class Home {
     }
 
     public void saveTransaction(Transaction transaction) {
-        String filePath = "src/main/resources/transactions.csv";
+        String filePath = "src/main/resources/transactions.csv"; //todo | unified constant
         File file = new File(filePath);
 
         try {
@@ -147,7 +152,6 @@ public class Home {
         ledger.showLedgerScreenOptionsMenu();
         String userOption = ledger.receiveUserOption();
         ledger.performUserOption(userOption);
-
     }
 
 

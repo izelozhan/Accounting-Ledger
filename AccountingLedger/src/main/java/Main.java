@@ -1,12 +1,16 @@
-import java.time.LocalTime;
+import Screens.HomeScreen;
+import Screens.LedgerScreen;
+import Screens.ReportsScreen;
 
 public class Main {
     public static void main(String[] args) {
-        Home home = new Home();
+        HomeScreen homeScreen = new HomeScreen();
+        LedgerScreen ledgerScreen = new LedgerScreen();
+        ReportsScreen reportsScreen = new ReportsScreen();
 
-        home.showHomeScreenOptionsMenu();
-        String userOption = home.receiveUserOption();
-        home.performUserOption(userOption);
+        homeScreen.showHomeScreenOptionsMenu();
+        String userOption = homeScreen.receiveUserOption();
+        homeScreen.performUserOption(userOption);
 
     }
 }

@@ -1,15 +1,17 @@
+package Screens;
+
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Scanner;
 
-public class Ledger {
+import Models.Transaction;
+import Utilities.Utils;
+
+public class LedgerScreen {
     Scanner scanner = new Scanner(System.in);
 
     //all entries should show the newest first,'
@@ -87,7 +89,7 @@ public class Ledger {
 
     private ArrayList<Transaction> getSortedTransactions() {
         //format my date/time to compare transactions
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"); //single date and time
 
         ArrayList<Transaction> sortedTransactions = readAllTransactions();
 
@@ -119,7 +121,6 @@ public class Ledger {
         }
     }
 
-
     private void showOnlyPayments() {
         ArrayList<Transaction> transactions = getSortedTransactions();
         Utils.addHeader();
@@ -131,6 +132,7 @@ public class Ledger {
     }
 
     private void returnHome() {
+
     }
 
     private void showReportsScreen() {
