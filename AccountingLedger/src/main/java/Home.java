@@ -14,7 +14,7 @@ public class Home {
     boolean showScreen = true;
 
     public void showHomeScreenOptionsMenu() {
-        System.out.println("=== ACCOUNTING LEDGER APPLICATION === \n");
+        printTitle("ACCOUNTING LEDGER APPLICATION");
         System.out.println("Welcome to our Accounting Ledger Application! Select an option to start!");
         System.out.println("D: Add Deposit");
         System.out.println("P: Make Payment (Debit)");
@@ -23,25 +23,34 @@ public class Home {
     }
 
     public String receiveUserOption() {
-        String userOption = "";
-        //for getting user's option, call options menu method
-        showHomeScreenOptionsMenu();
         //take user's option and assign it to a new String.
-        userOption = scanner.nextLine().toUpperCase();
-
-        switch (userOption) {
-            case "D" -> addDeposit();
-            case "P" -> makePayment();
-            case "L" -> showLedgerScreen();
-            case "X" -> exit();
-            default -> System.out.println("Invalid option. Please enter D, P, L or X.");
+        String selectedOption = "INVALID";
+        while(selectedOption.equals("INVALID")) {
+            String userOption = scanner.nextLine().toUpperCase();
+            selectedOption = switch (userOption) {
+                case "D" -> "ADD_DEPOSIT";
+                case "P" -> "MAKE_PAYMENT";
+                case "L" -> "LEDGER";
+                case "X" -> "EXIT";
+                default -> "INVALID";
+            };
+            if(selectedOption.equals("INVALID")) {
+                System.out.println("Invalid option. Please enter D, P, L or X.");
+            }
         }
-        return userOption;
+        return selectedOption;
     }
 
-    public void addDeposit() {
-        //for transaction.csv =>  date/time/description/vendor/amount
-        System.out.println("\n=== Add Deposit ===");
+    public void performUserOption(String userOption) {
+        switch (userOption) {
+            case "ADD_DEPOSIT" -> addDeposit();
+            case "MAKE_PAYMENT" -> makePayment();
+            case "LEDGER" -> showLedgerScreen();
+            case "EXIT" -> exit();
+        }
+    }
+
+    public Transaction createTransaction(boolean isPayment) {
         System.out.println("Please enter the following information:");
 
         System.out.println("1) Enter description: ");
@@ -53,26 +62,37 @@ public class Home {
         System.out.println("3) Enter amount: ");
         double amount = Double.parseDouble(scanner.nextLine());
 
+        if (isPayment && amount > 0) {
+            amount = -amount;
+        }
+
         LocalDate date = LocalDate.now();
         LocalTime time = LocalTime.now();
 
         String formattedDate = date.format(dateFormatter);
         String formattedTime = time.format(timeFormatter);
 
-        //create new transaction
-        Transaction transaction = new Transaction(formattedDate, formattedTime, description, vendor, amount);
-        saveTransaction(transaction);
-
-        askReturnHomeScreen();
-
+        return new Transaction(formattedDate, formattedTime, description, vendor, amount);
     }
 
-    public void askReturnHomeScreen(){
+    public void addDeposit() {
+        printTitle("Add Deposit");
+        Transaction transaction = createTransaction(false);
+        saveTransaction(transaction);
+    }
+
+    public void makePayment() {
+        printTitle("Make Payment");
+        Transaction transaction =  createTransaction(true);
+        saveTransaction(transaction);
+    }
+
+    public void askReturnHomeScreen() {
         boolean returnHome = true;
 
         while (returnHome) {
             System.out.println("\nDo you want to return Home Screen? (Yes/No)");
-            String input = scanner.nextLine();
+            String input = scanner.nextLine().trim();
 
             if (input.equalsIgnoreCase("yes")) {
                 System.out.println("\nReturning to Home Screen!\n");
@@ -94,9 +114,10 @@ public class Home {
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
 
             //csvFormat add pipe between to every item
-            fileWriter.write(transaction.csvFormat());
+            fileWriter.write(transaction.formatToCsv());
             fileWriter.write("\n");
-            System.out.println("\nTransaction success!");
+
+            System.out.println("\nTransaction saved success!");
             bufferedWriter.close();
 
         } catch (IOException e) {
@@ -110,15 +131,18 @@ public class Home {
 
     }
 
-    public void makePayment() {
-        System.out.println("Make Payment");
-        showScreen = false;
-
+    public void printTitle(String title) {
+        System.out.println("\n=== " + title + " ===");
     }
 
     public void exit() {
-        System.out.println("See you next time!");
+        System.out.println("Exiting the application, see you next time!");
         showScreen = false;
+    }
+
+    public void terminate() {
+        // https://stackoverflow.com/questions/12117160/terminate-a-console-application-in-java
+        System.exit(0);
     }
 
 }

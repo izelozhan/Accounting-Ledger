@@ -54,7 +54,7 @@ public class Transaction {
         this.amount = amount;
     }
 
-    public String csvFormat(){
+    public String formatToCsv(){
         return date + "|" + time + "|" + description + "|" + vendor + "|" + amount;
     }
 }

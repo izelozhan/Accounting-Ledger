@@ -4,10 +4,8 @@ public class Main {
     public static void main(String[] args) {
         Home home = new Home();
 
-//        home.showOptionsMenu();
+        home.showHomeScreenOptionsMenu();
         String userOption = home.receiveUserOption();
-        //option is ledger => call ledger
-        // reports => call reports
-
+        home.performUserOption(userOption);
     }
 }
