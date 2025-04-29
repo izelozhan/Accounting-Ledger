@@ -35,4 +35,31 @@ public class Ledger {
         return selectedOption;
     }
 
+    public void performUserOption(String userOption) {
+        switch (userOption) {
+            case "A" -> showAllTransactions();
+            case "D" -> showOnlyDeposits();
+            case "P" -> showOnlyPayments();
+            case "R" -> showReportsScreen();
+            case "H" -> returnHome();
+        }
+    }
+
+    private void showAllTransactions() {
+    }
+
+    private void returnHome() {
+    }
+
+    private void showReportsScreen() {
+    }
+
+    private void showOnlyPayments() {
+    }
+
+    private void showOnlyDeposits() {
+    }
+
+
+
 }

@@ -1,6 +1,4 @@
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -110,14 +108,34 @@ public class Home {
     }
 
     public void saveTransaction(Transaction transaction) {
+        String filePath =  "src/main/resources/transactions.csv";
+        File file = new File(filePath);
+
         try {
             //append to the file by passing true so it doesn't generate the file again
-            FileWriter fileWriter = new FileWriter("src/main/resources/transactions.csv", true);
+            FileWriter fileWriter = new FileWriter(file, true);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            FileReader fileReader = new FileReader(file);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
 
-            //csvFormat add pipe between to every item
-            fileWriter.write(transaction.formatToCsv());
-            fileWriter.write("\n");
+            boolean hasHeader = false;
+            String input;
+
+            while ((input = bufferedReader.readLine()) != null){
+                String[] tokens = input.split("\\|");
+
+                if (tokens[0].equals("date")){
+                    hasHeader = true;
+                    break;
+                }
+            }
+
+            if (!hasHeader){
+                bufferedWriter.write("date|time|description|vendor|amount\n");
+            }
+
+            bufferedWriter.write(transaction.formatToCsv());
+            bufferedWriter.newLine();
 
             System.out.println("\nTransaction saved success!");
             bufferedWriter.close();
@@ -130,6 +148,7 @@ public class Home {
     public void showLedgerScreen() {
         ledger.showLedgerScreenOptionsMenu();
         String userOption = ledger.receiveUserOption();
+        ledger.performUserOption(userOption);
 
     }
 
