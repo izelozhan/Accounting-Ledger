@@ -13,6 +13,7 @@ import Utilities.Utils;
 
 public class LedgerScreen {
     Scanner scanner = new Scanner(System.in);
+    ReportsScreen reports = new ReportsScreen();
 
     //all entries should show the newest first,'
     public void showLedgerScreenOptionsMenu() {
@@ -101,7 +102,7 @@ public class LedgerScreen {
         return sortedTransactions;
     }
 
-    private void showAllTransactions() {
+    public void showAllTransactions() {
         ArrayList<Transaction> transactions = getSortedTransactions();
         Utils.addHeader();
         for (Transaction transaction : transactions) {
@@ -136,6 +137,9 @@ public class LedgerScreen {
     }
 
     private void showReportsScreen() {
+        reports.showReportsScreenOptionsMenu();
+        String userOption = reports.receiveUserOption();
+        reports.performUserOption(userOption);
     }
 
 
