@@ -129,7 +129,7 @@ public class Home {
             }
 
             if (!hasHeader) {
-                bufferedWriter.write("date|time|description|vendor|amount\n");
+                bufferedWriter.write("date|time|description|vendor|amount");
             }
 
             bufferedWriter.write(transaction.formatToCsv());
