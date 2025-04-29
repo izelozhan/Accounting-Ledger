@@ -25,7 +25,7 @@ public class Home {
         //take user's option and assign it to a new String.
         String selectedOption = "INVALID";
 
-        while(selectedOption.equals("INVALID")) {
+        while (selectedOption.equals("INVALID")) {
             String userOption = scanner.nextLine().toUpperCase();
             selectedOption = switch (userOption) {
                 case "D" -> "ADD_DEPOSIT";
@@ -34,7 +34,7 @@ public class Home {
                 case "X" -> "EXIT";
                 default -> "INVALID";
             };
-            if(selectedOption.equals("INVALID")) {
+            if (selectedOption.equals("INVALID")) {
                 System.out.println("Invalid option. Please enter D, P, L or X.");
             }
         }
@@ -83,7 +83,7 @@ public class Home {
 
     public void makePayment() {
         Utils.printTitle("MAKE PAYMENT");
-        Transaction transaction =  createTransaction(true);
+        Transaction transaction = createTransaction(true);
         saveTransaction(transaction);
     }
 
@@ -108,29 +108,27 @@ public class Home {
     }
 
     public void saveTransaction(Transaction transaction) {
-        String filePath =  "src/main/resources/transactions.csv";
+        String filePath = "src/main/resources/transactions.csv";
         File file = new File(filePath);
 
         try {
             //append to the file by passing true so it doesn't generate the file again
-            FileWriter fileWriter = new FileWriter(file, true);
-            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-            FileReader fileReader = new FileReader(file);
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file, true));
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
 
             boolean hasHeader = false;
             String input;
 
-            while ((input = bufferedReader.readLine()) != null){
+            while ((input = bufferedReader.readLine()) != null) {
                 String[] tokens = input.split("\\|");
 
-                if (tokens[0].equals("date")){
+                if (tokens[0].equals("date")) {
                     hasHeader = true;
                     break;
                 }
             }
 
-            if (!hasHeader){
+            if (!hasHeader) {
                 bufferedWriter.write("date|time|description|vendor|amount\n");
             }
 

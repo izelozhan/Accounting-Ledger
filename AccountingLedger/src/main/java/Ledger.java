@@ -1,3 +1,9 @@
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 
 public class Ledger {
@@ -45,8 +51,58 @@ public class Ledger {
         }
     }
 
-    private void showAllTransactions() {
+    private ArrayList<Transaction> readAllTransactions() {
+        ArrayList<Transaction> transactions = new ArrayList<>();
+        String filePath =  "src/main/resources/transactions.csv";
+        try {
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(filePath));
+            String input;
+
+            while((input = bufferedReader.readLine()) != null){
+                String[] parts = input.split("\\|");
+                if (parts[0].equals("date")){
+                    continue;
+                }
+
+                String date = parts[0];
+                String time = parts[1];
+                String description = parts[2];
+                String vendor = parts[3];
+                double amount = Double.parseDouble(parts[4]);
+
+                transactions.add(new Transaction(date, time, description, vendor,amount));
+            }
+
+            bufferedReader.close();
+
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return transactions;
     }
+
+    private ArrayList<Transaction> sortedTransactions(){
+        ArrayList<Transaction> sortedTransactions = readAllTransactions();
+        sortedTransactions.sort((date1, date2) -> {
+            String valueOfDate1 = date1.getDate();
+            String valueOfDate2 = date2.getDate();
+            return valueOfDate2.compareTo(valueOfDate1);
+        });
+        return sortedTransactions;
+    }
+
+    private void showAllTransactions() {
+        ArrayList<Transaction> showAllTransactions = sortedTransactions();
+        for (Transaction transaction : showAllTransactions){
+            System.out.println(transaction);
+        }
+
+    }
+
+    private void showOnlyDeposits() {
+    }
+
 
     private void returnHome() {
     }
@@ -57,8 +113,7 @@ public class Ledger {
     private void showOnlyPayments() {
     }
 
-    private void showOnlyDeposits() {
-    }
+
 
 
 
