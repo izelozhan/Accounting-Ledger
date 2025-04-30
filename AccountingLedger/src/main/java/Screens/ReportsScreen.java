@@ -234,6 +234,81 @@ public class ReportsScreen {
 
     }
 
+    private void customSearch(){
+        ArrayList<Transaction> transactions = getSortedTransactions();
+        ArrayList<Transaction> customFoundTransactions = new ArrayList<>();
+
+        Utils.printTitle("Custom Search");
+
+        System.out.println("Please enter your search term(s): ");
+        System.out.print("Enter Start Date (YYYY-MM-DD): ");
+        String startDate = scanner.nextLine().trim();
+
+        System.out.print("Enter End Date (YYYY-MM-DD): ");
+        String endDate = scanner.nextLine().trim();
+
+        System.out.print("Enter Description: ");
+        String description = scanner.nextLine().trim().toLowerCase();
+
+        System.out.print("Enter Vendor: ");
+        String vendor = scanner.nextLine().trim().toLowerCase();
+
+        System.out.print("Enter Amount: ");
+        String amountInput = scanner.nextLine().trim();
+
+        System.out.println("Search results: ");
+//        If the user enters a value for a field you should filter on that field
+//•       If the user does not enter a value, you should not filter on that field
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate today = LocalDate.now();
+
+        for (Transaction transaction : transactions){
+            if (!startDate.isEmpty()){
+                String date = transaction.getDate().trim();
+                LocalDate transactionDate = LocalDate.parse(date, formatter);
+                LocalDate formattedStartDate = LocalDate.parse(startDate.trim(), formatter);
+
+                if (!transactionDate.isBefore(formattedStartDate) && !transactionDate.isAfter(today)){
+                    customFoundTransactions.add(transaction);
+                    continue;
+                }
+            }
+            if (!endDate.isEmpty()){
+                String date = transaction.getDate().trim();
+                LocalDate transactionDate = LocalDate.parse(date, formatter);
+                LocalDate formattedEndDate = LocalDate.parse(endDate.trim(), formatter);
+
+                if (!transactionDate.isAfter(formattedEndDate)){
+                    customFoundTransactions.add(transaction);
+                    continue;
+                }
+            }
+            if (!description.isEmpty()){
+                String tDesc = transaction.getDescription().trim().toLowerCase();
+                if (tDesc.equals(description)){
+                    customFoundTransactions.add(transaction);
+                    continue;
+                }
+            }
+            if (!vendor.isEmpty()){
+                String tVend = transaction.getVendor().trim().toLowerCase();
+                if (tVend.equals(vendor)){
+                    customFoundTransactions.add(transaction);
+                    continue;
+                }
+            }
+            if (!amountInput.isEmpty()){
+                String tAmount = String.valueOf(transaction.getAmount());
+                if (tAmount.equals(amountInput)){
+                    customFoundTransactions.add(transaction);
+                }
+            }
+        }
+
+
+
+    }
+
     private void backToReports() {
     }
 
