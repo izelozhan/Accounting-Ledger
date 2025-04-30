@@ -241,7 +241,7 @@ public class ReportsScreen {
         Utils.printTitle("Custom Search");
 
         System.out.println("Please enter your search term(s): ");
-        System.out.print("Enter Start Date (YYYY-MM-DD): ");
+        System.out.print("Enter Start Date (YYYY-MM-DD):");
         String startDate = scanner.nextLine().trim();
 
         System.out.print("Enter End Date (YYYY-MM-DD): ");
