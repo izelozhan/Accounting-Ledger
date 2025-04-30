@@ -8,7 +8,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.Month;
+import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -17,6 +17,10 @@ public class ReportsScreen {
     Scanner scanner = new Scanner(System.in);
     LocalDate today = LocalDate.now();
     LocalDate startOfTheMonth = LocalDate.now().withDayOfMonth(1);
+    LocalDate startOfTheYear = LocalDate.now().withDayOfYear(1);
+    LocalDate previousMonth = today.minusMonths(1);
+    LocalDate previousMonthStart = previousMonth.withDayOfMonth(1);
+    LocalDate previousMonthEnd = previousMonth.withDayOfMonth(previousMonth.lengthOfMonth());
 
     public void showReportsScreenOptionsMenu() {
         Utils.printTitle("REPORTS SCREEN");
@@ -132,9 +136,49 @@ public class ReportsScreen {
     }
 
     private void previousMonthReport() {
+        ArrayList<Transaction> transactions = getSortedTransactions();
+        Utils.printTitle("Your Previous Month Report");
+
+        boolean hasTransaction = false;
+        double total = 0;
+
+        for (Transaction transaction : transactions) {
+            LocalDate date = LocalDate.parse(transaction.getDate());
+
+            if (!date.isBefore(previousMonthStart) && !date.isAfter(previousMonthEnd)) {
+                hasTransaction = true;
+                System.out.println(transaction.formatToCsv());
+                total = transaction.getAmount() + total;
+            }
+        }
+        if (!hasTransaction) {
+            System.out.println("You don't have any transaction for previous month.");
+        }
+        System.out.printf("Your total for previous month is: $%.2f%n", total);
+
     }
 
     private void yearToDateReport() {
+        ArrayList<Transaction> transactions = getSortedTransactions();
+
+        Utils.printTitle("Your Year to Date Report");
+
+        boolean hasTransaction = false;
+        double total = 0;
+
+        for (Transaction transaction : transactions) {
+            LocalDate date = LocalDate.parse(transaction.getDate());
+
+            if (!date.isBefore(startOfTheYear) && !date.isAfter(today)) {
+                hasTransaction = true;
+                System.out.println(transaction.formatToCsv());
+                total = transaction.getAmount() + total;
+            }
+        }
+        if (!hasTransaction) {
+            System.out.println("You don't have any transaction for this year.");
+        }
+        System.out.printf("Your total for %s is: $%.2f%n", today.getYear(), total);
     }
 
     private void previousYearReport() {
