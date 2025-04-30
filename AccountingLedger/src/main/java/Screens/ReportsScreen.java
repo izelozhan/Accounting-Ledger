@@ -8,7 +8,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -18,12 +17,14 @@ public class ReportsScreen {
     LocalDate today = LocalDate.now();
     LocalDate startOfTheMonth = LocalDate.now().withDayOfMonth(1);
     LocalDate startOfTheYear = LocalDate.now().withDayOfYear(1);
+    //previous month
     LocalDate previousMonth = today.minusMonths(1);
     LocalDate previousMonthStart = previousMonth.withDayOfMonth(1);
-    LocalDate previousMonthEnd = previousMonth.withDayOfMonth(previousMonth.lengthOfMonth());
+    LocalDate previousMonthEnd = previousMonth.withDayOfMonth(previousMonth.lengthOfMonth()); //length of the month as a last month
+    //previous year
     LocalDate previousYear = today.minusYears(1);
     LocalDate previousYearStart = previousYear.withDayOfYear(1);
-    LocalDate previousYearEnd = previousYear.withDayOfYear(previousYear.lengthOfYear());
+    LocalDate previousYearEnd = previousYear.withDayOfYear(previousYear.lengthOfYear()); //length of the year as a last day of the year
 
     public void showReportsScreenOptionsMenu() {
         Utils.printTitle("REPORTS SCREEN");
@@ -113,7 +114,6 @@ public class ReportsScreen {
         });
         return sortedTransactions;
     }
-
 
     private void monthToDateReport() {
         ArrayList<Transaction> transactions = getSortedTransactions();
@@ -208,6 +208,30 @@ public class ReportsScreen {
     }
 
     private void searchByVendor() {
+        ArrayList<Transaction> transactions = getSortedTransactions();
+        ArrayList<Transaction> foundTransactions = new ArrayList<>();
+
+        Utils.printTitle("Search By Vendor");
+
+        System.out.println("Please enter your search term: ");
+        String searchTerm = scanner.nextLine().trim().toLowerCase();
+
+        System.out.println("Search results: ");
+        for (Transaction transaction : transactions){
+            String vendor = transaction.getVendor().trim().toLowerCase();
+            if (vendor.contains(searchTerm)){
+                foundTransactions.add(transaction);
+            }
+        }
+
+        if (foundTransactions.isEmpty()){
+            System.out.println("No results found.");
+        } else {
+            for (Transaction transaction : foundTransactions){
+                System.out.println(transaction.formatToCsv());
+            }
+        }
+
     }
 
     private void backToReports() {
