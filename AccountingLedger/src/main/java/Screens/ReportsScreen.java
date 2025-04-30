@@ -21,6 +21,9 @@ public class ReportsScreen {
     LocalDate previousMonth = today.minusMonths(1);
     LocalDate previousMonthStart = previousMonth.withDayOfMonth(1);
     LocalDate previousMonthEnd = previousMonth.withDayOfMonth(previousMonth.lengthOfMonth());
+    LocalDate previousYear = today.minusYears(1);
+    LocalDate previousYearStart = previousYear.withDayOfYear(1);
+    LocalDate previousYearEnd = previousYear.withDayOfYear(previousYear.lengthOfYear());
 
     public void showReportsScreenOptionsMenu() {
         Utils.printTitle("REPORTS SCREEN");
@@ -182,6 +185,26 @@ public class ReportsScreen {
     }
 
     private void previousYearReport() {
+        ArrayList<Transaction> transactions = getSortedTransactions();
+
+        Utils.printTitle("Your Previous Year Report");
+
+        boolean hasTransaction = false;
+        double total = 0;
+
+        for (Transaction transaction : transactions) {
+            LocalDate date = LocalDate.parse(transaction.getDate());
+
+            if (!date.isBefore(previousYearStart) && !date.isAfter(previousYearEnd)) {
+                hasTransaction = true;
+                System.out.println(transaction.formatToCsv());
+                total = transaction.getAmount() + total;
+            }
+        }
+        if (!hasTransaction) {
+            System.out.println("You don't have any transaction for previous year.");
+        }
+        System.out.printf("Your total for previous year is: $%.2f%n", total);
     }
 
     private void searchByVendor() {
