@@ -34,6 +34,7 @@ public class ReportsScreen {
         System.out.println("3) Year to Date");
         System.out.println("4) Previous Year");
         System.out.println("5) Search by Vendor");
+        System.out.println("6) Custom Search");
         System.out.println("0) Back");
     }
 
@@ -49,6 +50,7 @@ public class ReportsScreen {
                 case "3" -> "YEAR_TO_DATE";
                 case "4" -> "PREVIOUS_YEAR";
                 case "5" -> "SEARCH_BY_VENDOR";
+                case "6" -> "CUSTOM_SEARCH";
                 case "0" -> "BACK";
                 default -> "INVALID";
             };
@@ -66,6 +68,7 @@ public class ReportsScreen {
             case "YEAR_TO_DATE" -> yearToDateReport();
             case "PREVIOUS_YEAR" -> previousYearReport();
             case "SEARCH_BY_VENDOR" -> searchByVendor();
+            case "CUSTOM_SEARCH" -> customSearch();
             case "BACK" -> backToReports();
         }
     }
@@ -257,10 +260,8 @@ public class ReportsScreen {
         String amountInput = scanner.nextLine().trim();
 
         System.out.println("Search results: ");
-//        If the user enters a value for a field you should filter on that field
-//•       If the user does not enter a value, you should not filter on that field
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate today = LocalDate.now();
 
         for (Transaction transaction : transactions){
             if (!startDate.isEmpty()){
@@ -268,7 +269,7 @@ public class ReportsScreen {
                 LocalDate transactionDate = LocalDate.parse(date, formatter);
                 LocalDate formattedStartDate = LocalDate.parse(startDate.trim(), formatter);
 
-                if (!transactionDate.isBefore(formattedStartDate) && !transactionDate.isAfter(today)){
+                if (!transactionDate.isBefore(formattedStartDate)){
                     customFoundTransactions.add(transaction);
                     continue;
                 }
@@ -305,7 +306,13 @@ public class ReportsScreen {
             }
         }
 
-
+        if (customFoundTransactions.isEmpty()){
+            System.out.println("No results found.");
+        } else {
+            for (Transaction transaction : customFoundTransactions){
+                System.out.println(transaction.formatToCsv());
+            }
+        }
 
     }
 
