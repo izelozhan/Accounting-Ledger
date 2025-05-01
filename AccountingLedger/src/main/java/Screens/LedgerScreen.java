@@ -1,14 +1,12 @@
 package Screens;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 import Models.Transaction;
 import Services.DataService;
 import Utilities.Utils;
 
 public class LedgerScreen {
-    Scanner scanner = new Scanner(System.in);
     ReportsScreen reports = new ReportsScreen();
     DataService dataService = new DataService();
 
@@ -27,7 +25,7 @@ public class LedgerScreen {
         String selectedOption = "INVALID";
 
         while (selectedOption.equals("INVALID")) {
-            String userOption = scanner.nextLine().toUpperCase();
+            String userOption = Utils.getStringFromTerminal("Please enter valid option.").toUpperCase();
             selectedOption = switch (userOption) {
                 case "A" -> "ALL";
                 case "D" -> "DEPOSITS";
@@ -43,47 +41,35 @@ public class LedgerScreen {
         return selectedOption;
     }
 
-    public void performUserOption(String userOption) {
+    public boolean performUserOption(String userOption) {
+        if(userOption.equals("HOME")) {
+            return true;
+        }
         switch (userOption) {
             case "ALL" -> showAllTransactions();
             case "DEPOSITS" -> showOnlyDeposits();
             case "PAYMENTS" -> showOnlyPayments();
             case "REPORTS" -> showReportsScreen();
-            case "HOME" -> returnHome();
         }
+        return false;
     }
 
     public void showAllTransactions() {
         ArrayList<Transaction> transactions = dataService.getSortedTransactions();
         Utils.addHeader();
-        for (Transaction transaction : transactions) {
-            System.out.println(transaction.formatToCsv());
-        }
+        Utils.printTransactions(transactions);
     }
 
     private void showOnlyDeposits() {
-        ArrayList<Transaction> transactions = dataService.getSortedTransactions();
         Utils.addHeader();
-        for (Transaction transaction : transactions) {
-            if (transaction.getAmount() > 0) {
-                System.out.println(transaction.formatToCsv());
-
-            }
-        }
+        ArrayList<Transaction> deposits = dataService.search("","","","","",false,true);
+        Utils.printTransactions(deposits);
     }
 
     private void showOnlyPayments() {
-        ArrayList<Transaction> transactions = dataService.getSortedTransactions();
         Utils.addHeader();
-        for (Transaction transaction : transactions) {
-            if (transaction.getAmount() < 0) {
-                System.out.println(transaction.formatToCsv());
-            }
-        }
-    }
-
-    private void returnHome() {
-
+        ArrayList<Transaction> payments = dataService.search("","","","","",true,false);
+        Utils.printTransactions(payments);
     }
 
     private void showReportsScreen() {

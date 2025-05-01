@@ -65,7 +65,9 @@ public class DataService {
             String vendor,
             String amount,
             String startDate,
-            String endDate
+            String endDate,
+            boolean isPayment,
+            boolean isDeposit
     ) {
         ArrayList<Transaction> transactions = getSortedTransactions();
         ArrayList<Transaction> result = new ArrayList<>();
@@ -73,6 +75,20 @@ public class DataService {
         for (Transaction transaction : transactions) {
             LocalDate transactionDate = transaction.getLocalDate(defaultDateFormatter);
 
+            if (isPayment) {
+                if (transaction.getAmount() < 0) {
+                    //it's ok because this is a payment
+                    result.add(transaction);
+                }
+                continue;
+            }
+            if (isDeposit) {
+                if (transaction.getAmount() > 0) {
+                    result.add(transaction);
+                }
+                continue;
+
+            }
             if (!description.isEmpty()) {
                 String tDesc = transaction.getDescription().trim().toLowerCase();
                 if (tDesc.equals(description)) {

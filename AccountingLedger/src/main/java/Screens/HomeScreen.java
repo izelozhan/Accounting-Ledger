@@ -7,15 +7,11 @@ import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Scanner;
 
 public class HomeScreen {
-    Scanner scanner = new Scanner(System.in);
     DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
     LedgerScreen ledger = new LedgerScreen();
-
-    boolean showScreen = true;
 
     public void showHomeScreenOptionsMenu() {
         Utils.printTitle("ACCOUNTING LEDGER APPLICATION");
@@ -31,7 +27,7 @@ public class HomeScreen {
         String selectedOption = "INVALID";
 
         while (selectedOption.equals("INVALID")) {
-            String userOption = scanner.nextLine().toUpperCase();
+            String userOption = Utils.getStringFromTerminal("Please choose one of the options.").toUpperCase();
             selectedOption = switch (userOption) {
                 case "D" -> "ADD_DEPOSIT";
                 case "P" -> "MAKE_PAYMENT";
@@ -46,26 +42,25 @@ public class HomeScreen {
         return selectedOption;
     }
 
-    public void performUserOption(String userOption) {
+    public boolean performUserOption(String userOption) {
+        if (userOption.equals("EXIT")) {
+            return true; //so it can exit
+        }
         switch (userOption) {
             case "ADD_DEPOSIT" -> addDeposit();
             case "MAKE_PAYMENT" -> makePayment();
             case "LEDGER" -> showLedgerScreen();
-            case "EXIT" -> exit();
         }
+        return false;
     }
 
     public Transaction createTransaction(boolean isPayment) {
         System.out.println("Please enter the following information:");
 
-        System.out.println("1) Enter description: ");
-        String description = scanner.nextLine();
-
-        System.out.println("2) Enter vendor: ");
-        String vendor = scanner.nextLine();
-
-        System.out.println("3) Enter amount: ");
-        double amount = Double.parseDouble(scanner.nextLine());
+        String description = Utils.getStringFromTerminal("1) Enter description: ");
+        String vendor = Utils.getStringFromTerminal("2) Enter vendor: ");
+        String amountString = Utils.getDoubleFromTerminal("3) Enter amount: ", true);
+        double amount = Double.parseDouble(amountString);
 
         if (isPayment && amount > 0) {
             amount = -amount;
@@ -90,26 +85,6 @@ public class HomeScreen {
         Utils.printTitle("MAKE PAYMENT");
         Transaction transaction = createTransaction(true);
         saveTransaction(transaction);
-    }
-
-    public void askReturnHomeScreen() {
-        boolean returnHome = true;
-
-        while (returnHome) {
-            System.out.println("\nDo you want to return Home Screen? (Yes/No)");
-            String input = scanner.nextLine().trim();
-
-            if (input.equalsIgnoreCase("yes")) {
-                System.out.println("\nReturning to Home Screen!\n");
-                receiveUserOption();
-                returnHome = false;
-            } else if (input.equalsIgnoreCase("no")) {
-                exit();
-                returnHome = false;
-            } else {
-                System.out.println("Invalid input. Please type 'Yes' or 'No'");
-            }
-        }
     }
 
     public void saveTransaction(Transaction transaction) {
@@ -149,19 +124,13 @@ public class HomeScreen {
     }
 
     public void showLedgerScreen() {
-        ledger.showLedgerScreenOptionsMenu();
-        String userOption = ledger.receiveUserOption();
-        ledger.performUserOption(userOption);
+        boolean isExitFromLedger = false;
+        while(!isExitFromLedger) {
+            ledger.showLedgerScreenOptionsMenu();
+            String userOption = ledger.receiveUserOption();
+            isExitFromLedger = ledger.performUserOption(userOption);
+        }
     }
 
-    public void exit() {
-        System.out.println("Exiting the application, see you next time!");
-        showScreen = false;
-    }
-
-    public void terminate() {
-        // https://stackoverflow.com/questions/12117160/terminate-a-console-application-in-java
-        System.exit(0);
-    }
 
 }

@@ -7,10 +7,8 @@ import Utilities.Utils;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class ReportsScreen {
-    Scanner scanner = new Scanner(System.in);
     DataService dataService = new DataService();
     DateTimeFormatter defaultDateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
@@ -31,7 +29,7 @@ public class ReportsScreen {
         String selectedOption = "INVALID";
 
         while (selectedOption.equals("INVALID")) {
-            String userOption = scanner.nextLine().toUpperCase();
+            String userOption = Utils.getStringFromTerminal("Please enter valid option.").toUpperCase();
             selectedOption = switch (userOption) {
                 case "1" -> "MONTH_TO_DATE";
                 case "2" -> "PREVIOUS_MONTH";
@@ -57,7 +55,6 @@ public class ReportsScreen {
             case "PREVIOUS_YEAR" -> previousYearReport();
             case "SEARCH_BY_VENDOR" -> searchByVendor();
             case "CUSTOM_SEARCH" -> customSearch();
-            case "BACK" -> backToReports();
         }
     }
 
@@ -70,20 +67,9 @@ public class ReportsScreen {
         String startDate = startOfTheMonth.format(defaultDateFormatter);
         String endDate = today.format(defaultDateFormatter);
 
-        ArrayList<Transaction> result = dataService.search("", "", "", startDate, endDate);
+        ArrayList<Transaction> result = dataService.search("", "", "", startDate, endDate, false,false);
 
-        if (result.isEmpty()) {
-            System.out.println("You don't have any transaction for this month.");
-        } else {
-            double total = 0;
-            for (Transaction transaction : result) {
-                System.out.println(transaction.formatToCsv());
-                total = transaction.getAmount() + total;
-            }
-
-            System.out.printf("Your total for %s is: $%.2f%n", today.getMonth(), total);
-
-        }
+        Utils.printTransactions(result);
 
     }
 
@@ -98,19 +84,10 @@ public class ReportsScreen {
         String startDate = previousMonthStart.format(defaultDateFormatter);
         String endDate = previousMonthEnd.format(defaultDateFormatter);
 
-        ArrayList<Transaction> result = dataService.search("", "", "", startDate, endDate);
+        ArrayList<Transaction> result = dataService.search("", "", "", startDate, endDate, false,false);
 
-        if (result.isEmpty()) {
-            System.out.println("You don't have any transaction for previous month.");
-        } else {
-            double total = 0;
+        Utils.printTransactions(result);
 
-            for (Transaction transaction : result) {
-                System.out.println(transaction.formatToCsv());
-                total = transaction.getAmount() + total;
-            }
-            System.out.printf("Your total for previous month is: $%.2f%n", total);
-        }
     }
 
     private void yearToDateReport() {
@@ -122,19 +99,9 @@ public class ReportsScreen {
         String startDate = startOfTheYear.format(defaultDateFormatter);
         String endDate = today.format(defaultDateFormatter);
 
-        ArrayList<Transaction> result = dataService.search("", "", "", startDate, endDate);
+        ArrayList<Transaction> result = dataService.search("", "", "", startDate, endDate, false, false);
 
-        if (result.isEmpty()) {
-            System.out.println("You don't have any transaction for this year.");
-        } else {
-            double total = 0;
-
-            for (Transaction transaction : result) {
-                System.out.println(transaction.formatToCsv());
-                total = transaction.getAmount() + total;
-            }
-            System.out.printf("Your total for %s is: $%.2f%n", today.getYear(), total);
-        }
+        Utils.printTransactions(result);
     }
 
     private void previousYearReport() {
@@ -148,77 +115,41 @@ public class ReportsScreen {
         String startDate = previousYearStart.format(defaultDateFormatter);
         String endDate = previousYearEnd.format(defaultDateFormatter);
 
-        ArrayList<Transaction> result = dataService.search("", "", "", startDate, endDate);
+        ArrayList<Transaction> result = dataService.search("", "", "", startDate, endDate, false, false);
 
-        if (result.isEmpty()) {
-            System.out.println("You don't have any transaction for previous year.");
-        } else {
-            double total = 0;
-
-            for (Transaction transaction : result) {
-                System.out.println(transaction.formatToCsv());
-                total = transaction.getAmount() + total;
-            }
-            System.out.printf("Your total for previous year is: $%.2f%n", total);
-        }
+        Utils.printTransactions(result);
     }
 
     private void searchByVendor() {
         Utils.printTitle("Search By Vendor");
 
-        System.out.println("Please enter your search term: ");
-        String searchTerm = scanner.nextLine().trim().toLowerCase();
+        String searchTerm = Utils.getStringFromTerminal("Please enter your search term: ").trim().toLowerCase();
 
-        ArrayList<Transaction> foundTransactions = dataService.search("", searchTerm, "", "", "");
+        ArrayList<Transaction> result = dataService.search("", searchTerm, "", "", "",false, false);
 
-        if (foundTransactions.isEmpty()) {
-            System.out.println("No results found.");
-        } else {
-            System.out.println("Search results: ");
-            for (Transaction transaction : foundTransactions) {
-                System.out.println(transaction.formatToCsv());
-            }
-        }
-
+        Utils.printTransactions(result);
     }
 
     private void customSearch() {
         Utils.printTitle("Custom Search");
 
         System.out.println("Please enter your search term(s): ");
-        System.out.print("Enter Start Date (YYYY-MM-DD):");
-        String startDate = scanner.nextLine().trim();
 
-        System.out.print("Enter End Date (YYYY-MM-DD): ");
-        String endDate = scanner.nextLine().trim();
-
-        System.out.print("Enter Description: ");
-        String description = scanner.nextLine().trim().toLowerCase();
-
-        System.out.print("Enter Vendor: ");
-        String vendor = scanner.nextLine().trim().toLowerCase();
-
-        System.out.print("Enter Amount: ");
-        String amountInput = scanner.nextLine().trim();
+        String startDate = Utils.getDateFromTerminal("Enter Start Date (YYYY-MM-DD):",false).trim();
+        String endDate = Utils.getDateFromTerminal("Enter End Date (YYYY-MM-DD): ",false).trim();
+        String description = Utils.getStringFromTerminal("Enter Description: ").trim().toLowerCase();
+        String vendor = Utils.getStringFromTerminal("Enter Vendor: ").trim().toLowerCase();
+        String amountInput = Utils.getStringFromTerminal("Enter Amount: ").trim();
 
 
-        ArrayList<Transaction> customFoundTransactions = dataService.search(
-                description, vendor, amountInput, startDate, endDate
+        ArrayList<Transaction> result = dataService.search(
+                description, vendor, amountInput, startDate, endDate, false, false
         );
 
-        if (customFoundTransactions.isEmpty()) {
-            System.out.println("No results found.");
-        } else {
-            System.out.println("Search results: ");
-            for (Transaction transaction : customFoundTransactions) {
-                System.out.println(transaction.formatToCsv());
-            }
-        }
-
+        Utils.printTransactions(result);
     }
 
-    private void backToReports() {
-    }
+
 
 
 }
