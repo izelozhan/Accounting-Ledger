@@ -1,1 +1,31 @@
-# capstone-1
+# 💸 Capstone-1: Accounting Ledger CLI 💸
+
+A simple **command-line interface (CLI)** application to manage and track financial transactions for business or personal use. This project reads from and writes to a `transactions.csv` file to store transaction data persistently.
+
+---
+
+## ✨ Features
+
+- ➕ Add new income or make payment  
+- 📄 Display all transactions  
+- 💸 Display only debits/payments  
+- 📆 Pre-defined reports by month/year  
+- 🔍 Custom filter to search by any field  
+- 📥 Load data from CSV file  
+
+---
+
+## 📁 CSV File Format
+
+All transactions are stored in a file named `transactions.csv`. Each line represents a transaction with the following format:
+
+`Date | Time | Description | Vendor | Amount`
+
+## 📷 Application Screens
+
+![homescreen](https://github.com/user-attachments/assets/0ae09f54-4d51-4360-9611-a9a07558ce0b)
+
+![ledgerscreen](https://github.com/user-attachments/assets/e73c7ef7-240a-4a3a-b220-d7a9364161f9)
+
+![reportsscreen](https://github.com/user-attachments/assets/6e090723-e26e-4464-8d91-3404c24e4ea5)
+
