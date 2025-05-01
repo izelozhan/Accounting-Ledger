@@ -1,6 +1,7 @@
 package Screens;
 
 import Models.Transaction;
+import Services.DataService;
 import Utilities.Utils;
 
 import java.io.*;
@@ -12,6 +13,7 @@ public class HomeScreen {
     DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
     LedgerScreen ledger = new LedgerScreen();
+    DataService dataService = new DataService();
 
     public void showHomeScreenOptionsMenu() {
         Utils.printTitle("ACCOUNTING LEDGER APPLICATION");
@@ -78,50 +80,15 @@ public class HomeScreen {
     public void addDeposit() {
         Utils.printTitle("ADD DEPOSIT");
         Transaction transaction = createTransaction(false);
-        saveTransaction(transaction);
+        dataService.saveTransaction(transaction);
     }
 
     public void makePayment() {
         Utils.printTitle("MAKE PAYMENT");
         Transaction transaction = createTransaction(true);
-        saveTransaction(transaction);
+        dataService.saveTransaction(transaction);
     }
 
-    public void saveTransaction(Transaction transaction) {
-        String filePath = "src/main/resources/transactions.csv"; //todo | unified constant
-        File file = new File(filePath);
-
-        try {
-            //append to the file by passing true so it doesn't generate the file again
-            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file, true));
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
-
-            boolean hasHeader = false;
-            String input;
-
-            while ((input = bufferedReader.readLine()) != null) {
-                String[] tokens = input.split("\\|");
-
-                if (tokens[0].equals("date")) {
-                    hasHeader = true;
-                    break;
-                }
-            }
-
-            if (!hasHeader) {
-                bufferedWriter.write("date|time|description|vendor|amount");
-            }
-
-            bufferedWriter.write(transaction.formatToCsv());
-            bufferedWriter.newLine();
-
-            System.out.println("\nTransaction saved success!");
-            bufferedWriter.close();
-
-        } catch (IOException e) {
-            System.out.println("Error: An unexpected error occurred. Try again.");
-        }
-    }
 
     public void showLedgerScreen() {
         boolean isExitFromLedger = false;

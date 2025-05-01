@@ -13,7 +13,7 @@ public class Utils {
     public static void printTitle(String title) {
         System.out.println("\n=== " + title + " ===");
     }
-    public static void addHeader(){
+    public static void csvHeader(){
         System.out.println("date|time|description|vendor|amount");
     }
     public static void printTransactions (ArrayList<Transaction> result){
@@ -21,7 +21,7 @@ public class Utils {
             System.out.println("You don't have any transactions.");
         } else {
             double total = 0;
-            Utils.addHeader();
+            Utils.csvHeader();
             for (Transaction transaction : result) {
                 System.out.println(transaction.formatToCsv());
                 total = transaction.getAmount() + total;
@@ -30,8 +30,8 @@ public class Utils {
             System.out.printf("The total is: $%.2f%n" , total);
         }
     }
-    static Scanner scanner = new Scanner(System.in);
 
+    static Scanner scanner = new Scanner(System.in);
 
     public static String getStringFromTerminal(String message) {
         if (!message.isEmpty()){

@@ -2,18 +2,15 @@ package Services;
 
 import Models.Transaction;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Optional;
 
 public class DataService {
     DateTimeFormatter defaultDateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-    String filePath = "src/main/resources/transactions.csv";
+    static String filePath = "src/main/resources/transactions.csv";
 
     private ArrayList<Transaction> readAllTransactions() {
         ArrayList<Transaction> transactions = new ArrayList<>();
@@ -60,6 +57,44 @@ public class DataService {
         return sortedTransactions;
     }
 
+    public void saveTransaction(Transaction transaction) {
+        File file = new File(filePath);
+
+        boolean fileExits = file.exists();
+
+        try {
+            //append to the file by passing true so it doesn't generate the file again
+            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file, true));
+//            BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+
+//            boolean hasHeader = false;
+//            String input;
+//
+//            while ((input = bufferedReader.readLine()) != null) {
+//                String[] tokens = input.split("\\|");
+//
+//                if (tokens[0].equals("date")) {
+//                    hasHeader = true;
+//                    break;
+//                }
+//            }
+
+            if (!fileExits) {
+                bufferedWriter.write("date|time|description|vendor|amount");
+            }
+
+            bufferedWriter.write(transaction.formatToCsv());
+            bufferedWriter.newLine();
+
+            System.out.println("\nTransaction saved success!");
+            bufferedWriter.close();
+
+        } catch (IOException e) {
+            System.out.println("Error: An unexpected error occurred. Try again.");
+        }
+    }
+
+    //todo: change how filters work
     public ArrayList<Transaction> search(
             String description,
             String vendor,

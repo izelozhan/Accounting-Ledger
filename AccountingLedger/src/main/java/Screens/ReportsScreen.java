@@ -21,7 +21,7 @@ public class ReportsScreen {
         System.out.println("4) Previous Year");
         System.out.println("5) Search by Vendor");
         System.out.println("6) Custom Search");
-        System.out.println("0) Back");
+        System.out.println("0) Back \n");
     }
 
     public String receiveUserOption() {
@@ -29,7 +29,7 @@ public class ReportsScreen {
         String selectedOption = "INVALID";
 
         while (selectedOption.equals("INVALID")) {
-            String userOption = Utils.getStringFromTerminal("Please enter valid option.").toUpperCase();
+            String userOption = Utils.getStringFromTerminal("Please choose one of the options.").toUpperCase();
             selectedOption = switch (userOption) {
                 case "1" -> "MONTH_TO_DATE";
                 case "2" -> "PREVIOUS_MONTH";

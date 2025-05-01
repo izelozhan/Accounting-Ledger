@@ -17,7 +17,7 @@ public class LedgerScreen {
         System.out.println("D: Deposits");
         System.out.println("P: Payments");
         System.out.println("R: Reports");
-        System.out.println("H: Home");
+        System.out.println("H: Home \n");
     }
 
     public String receiveUserOption() {
@@ -25,7 +25,7 @@ public class LedgerScreen {
         String selectedOption = "INVALID";
 
         while (selectedOption.equals("INVALID")) {
-            String userOption = Utils.getStringFromTerminal("Please enter valid option.").toUpperCase();
+            String userOption = Utils.getStringFromTerminal("Please choose one of the options.").toUpperCase();
             selectedOption = switch (userOption) {
                 case "A" -> "ALL";
                 case "D" -> "DEPOSITS";
@@ -56,18 +56,18 @@ public class LedgerScreen {
 
     public void showAllTransactions() {
         ArrayList<Transaction> transactions = dataService.getSortedTransactions();
-        Utils.addHeader();
+        Utils.csvHeader();
         Utils.printTransactions(transactions);
     }
 
     private void showOnlyDeposits() {
-        Utils.addHeader();
+        Utils.csvHeader();
         ArrayList<Transaction> deposits = dataService.search("","","","","",false,true);
         Utils.printTransactions(deposits);
     }
 
     private void showOnlyPayments() {
-        Utils.addHeader();
+        Utils.csvHeader();
         ArrayList<Transaction> payments = dataService.search("","","","","",true,false);
         Utils.printTransactions(payments);
     }
