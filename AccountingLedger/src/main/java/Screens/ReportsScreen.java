@@ -41,7 +41,7 @@ public class ReportsScreen {
                 default -> "INVALID";
             };
             if (selectedOption.equals("INVALID")) {
-                System.out.println("Invalid option. Please enter 1, 2, 3, 4, 5 or 0.");
+                Utils.printError("Invalid option. Please enter 1, 2, 3, 4, 5 or 0.");
             }
         }
         return selectedOption;

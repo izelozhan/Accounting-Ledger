@@ -1,6 +1,7 @@
 package Services;
 
 import Models.Transaction;
+import Utilities.Utils;
 
 import java.io.*;
 import java.time.LocalDate;
@@ -65,19 +66,6 @@ public class DataService {
         try {
             //append to the file by passing true so it doesn't generate the file again
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file, true));
-//            BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
-
-//            boolean hasHeader = false;
-//            String input;
-//
-//            while ((input = bufferedReader.readLine()) != null) {
-//                String[] tokens = input.split("\\|");
-//
-//                if (tokens[0].equals("date")) {
-//                    hasHeader = true;
-//                    break;
-//                }
-//            }
 
             if (!fileExits) {
                 bufferedWriter.write("date|time|description|vendor|amount");
@@ -86,11 +74,11 @@ public class DataService {
             bufferedWriter.write(transaction.formatToCsv());
             bufferedWriter.newLine();
 
-            System.out.println("\nTransaction saved success!");
+            Utils.printSuccess("\nTransaction saved success!");
             bufferedWriter.close();
 
         } catch (IOException e) {
-            System.out.println("Error: An unexpected error occurred. Try again.");
+            Utils.printError("Error: An unexpected error occurred. Try again.");
         }
     }
 

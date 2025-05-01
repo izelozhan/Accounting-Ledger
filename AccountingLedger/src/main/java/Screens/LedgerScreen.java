@@ -35,7 +35,7 @@ public class LedgerScreen {
                 default -> "INVALID";
             };
             if (selectedOption.equals("INVALID")) {
-                System.out.println("Invalid option. Please enter A, D, P, R or H.");
+                Utils.printError("Invalid option. Please enter A, D, P, R or H.");
             }
         }
         return selectedOption;
@@ -56,18 +56,15 @@ public class LedgerScreen {
 
     public void showAllTransactions() {
         ArrayList<Transaction> transactions = dataService.getSortedTransactions();
-        Utils.csvHeader();
         Utils.printTransactions(transactions);
     }
 
     private void showOnlyDeposits() {
-        Utils.csvHeader();
         ArrayList<Transaction> deposits = dataService.search("","","","","",false,true);
         Utils.printTransactions(deposits);
     }
 
     private void showOnlyPayments() {
-        Utils.csvHeader();
         ArrayList<Transaction> payments = dataService.search("","","","","",true,false);
         Utils.printTransactions(payments);
     }

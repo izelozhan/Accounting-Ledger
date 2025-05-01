@@ -4,7 +4,6 @@ import Models.Transaction;
 import Services.DataService;
 import Utilities.Utils;
 
-import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -38,7 +37,7 @@ public class HomeScreen {
                 default -> "INVALID";
             };
             if (selectedOption.equals("INVALID")) {
-                System.out.println("Invalid option. Please enter D, P, L or X.");
+                Utils.printError("Invalid option. Please enter D, P, L or X.");
             }
         }
         return selectedOption;

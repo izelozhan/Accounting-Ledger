@@ -9,9 +9,16 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Utils {
+    static Scanner scanner = new Scanner(System.in);
+    static String RESET = "\u001B[0m";
+    static String RED = "\u001B[31m";
+    static String GREEN = "\u001B[32m";
+    static String YELLOW = "\u001B[33m";
+    static String MAGENTA = "\u001B[45m";
+    static String BLUE = "\u001B[34m";
 
     public static void printTitle(String title) {
-        System.out.println("\n=== " + title + " ===");
+        System.out.println(BLUE + "\n=== " + title + " ===" + RESET);
     }
     public static void csvHeader(){
         System.out.println("date|time|description|vendor|amount");
@@ -31,19 +38,16 @@ public class Utils {
         }
     }
 
-    static Scanner scanner = new Scanner(System.in);
-
     public static String getStringFromTerminal(String message) {
         if (!message.isEmpty()){
-            System.out.println(message);
+           printInfo(message);
         }
         return scanner.nextLine();
     }
 
     public static String getDoubleFromTerminal(String message, boolean isRequired) {
         if (!message.isEmpty()){
-            System.out.println(message);
-
+            printInfo(message);
         }
         while(true) {
             try
@@ -56,8 +60,7 @@ public class Utils {
                 if (!isRequired){
                     return "";
                 } else {
-                    System.out.println("Invalid value, please enter again.");
-
+                    printError("Invalid value, please enter again.");
                 }
             }
         }
@@ -65,8 +68,7 @@ public class Utils {
 
     public static String getDateFromTerminal(String message, boolean isRequired) {
         if (!message.isEmpty()){
-            System.out.println(message);
-
+            printInfo(message);
         }
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         while(true) {
@@ -80,10 +82,19 @@ public class Utils {
                 if (!isRequired){
                     return "";
                 } else {
-                    System.out.println("Invalid value, please enter again.");
-
+                    printError("Invalid value, please enter again.");
                 }
             }
         }
+    }
+
+    public static void printError(String message){
+        System.out.println(RED + message + RESET);
+    }
+    public static void printSuccess(String message){
+        System.out.println(GREEN + message + RESET);
+    }
+    public static void printInfo(String message){
+        System.out.println(YELLOW + message + RESET);
     }
 }
