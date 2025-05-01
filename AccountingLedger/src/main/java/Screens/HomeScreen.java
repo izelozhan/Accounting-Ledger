@@ -154,7 +154,6 @@ public class HomeScreen {
         ledger.performUserOption(userOption);
     }
 
-
     public void exit() {
         System.out.println("Exiting the application, see you next time!");
         showScreen = false;

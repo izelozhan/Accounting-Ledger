@@ -1,30 +1,18 @@
 package Screens;
 
 import Models.Transaction;
+import Services.DataService;
 import Utilities.Utils;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ReportsScreen {
     Scanner scanner = new Scanner(System.in);
-    LocalDate today = LocalDate.now();
-    LocalDate startOfTheMonth = LocalDate.now().withDayOfMonth(1);
-    LocalDate startOfTheYear = LocalDate.now().withDayOfYear(1);
-    //previous month
-    LocalDate previousMonth = today.minusMonths(1);
-    LocalDate previousMonthStart = previousMonth.withDayOfMonth(1);
-    LocalDate previousMonthEnd = previousMonth.withDayOfMonth(previousMonth.lengthOfMonth()); //length of the month as a last month
-    //previous year
-    LocalDate previousYear = today.minusYears(1);
-    LocalDate previousYearStart = previousYear.withDayOfYear(1);
-    LocalDate previousYearEnd = previousYear.withDayOfYear(previousYear.lengthOfYear()); //length of the year as a last day of the year
+    DataService dataService = new DataService();
+    DateTimeFormatter defaultDateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     public void showReportsScreenOptionsMenu() {
         Utils.printTitle("REPORTS SCREEN");
@@ -73,174 +61,128 @@ public class ReportsScreen {
         }
     }
 
-    private ArrayList<Transaction> readAllTransactions() {
-        ArrayList<Transaction> transactions = new ArrayList<>();
-        String filePath = "src/main/resources/transactions.csv";
-        try {
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(filePath));
-            String input;
-
-            while ((input = bufferedReader.readLine()) != null) {
-                String[] parts = input.split("\\|");
-                if (parts[0].equals("date")) {
-                    continue;
-                }
-
-                String date = parts[0];
-                String time = parts[1];
-                String description = parts[2];
-                String vendor = parts[3];
-                double amount = Double.parseDouble(parts[4]);
-
-                transactions.add(new Transaction(date, time, description, vendor, amount));
-            }
-
-            bufferedReader.close();
-
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        return transactions;
-    }
-
-    private ArrayList<Transaction> getSortedTransactions() {
-        //format my date/time to compare transactions
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"); //single date and time
-
-        ArrayList<Transaction> sortedTransactions = readAllTransactions();
-
-        sortedTransactions.sort((transaction1, transaction2) -> {
-            LocalDateTime date1 = LocalDateTime.parse(transaction1.getDate() + " " + transaction1.getTime(), formatter);
-            LocalDateTime date2 = LocalDateTime.parse(transaction2.getDate() + " " + transaction2.getTime(), formatter);
-            return date2.compareTo(date1);
-        });
-        return sortedTransactions;
-    }
-
     private void monthToDateReport() {
-        ArrayList<Transaction> transactions = getSortedTransactions();
-
         Utils.printTitle("Your Month to Date Report");
 
-        boolean hasTransaction = false;
-        double total = 0;
+        LocalDate today = LocalDate.now();
+        LocalDate startOfTheMonth = LocalDate.now().withDayOfMonth(1);
 
-        for (Transaction transaction : transactions) {
-            LocalDate date = LocalDate.parse(transaction.getDate());
+        String startDate = startOfTheMonth.format(defaultDateFormatter);
+        String endDate = today.format(defaultDateFormatter);
 
-            if (!date.isBefore(startOfTheMonth) && !date.isAfter(today)) {
-                hasTransaction = true;
+        ArrayList<Transaction> result = dataService.search("", "", "", startDate, endDate);
+
+        if (result.isEmpty()) {
+            System.out.println("You don't have any transaction for this month.");
+        } else {
+            double total = 0;
+            for (Transaction transaction : result) {
                 System.out.println(transaction.formatToCsv());
                 total = transaction.getAmount() + total;
             }
+
+            System.out.printf("Your total for %s is: $%.2f%n", today.getMonth(), total);
+
         }
-        if (!hasTransaction) {
-            System.out.println("You don't have any transaction for this month.");
-        }
-        System.out.printf("Your total for %s is: $%.2f%n", today.getMonth(), total);
+
     }
 
     private void previousMonthReport() {
-        ArrayList<Transaction> transactions = getSortedTransactions();
         Utils.printTitle("Your Previous Month Report");
+        //previous month
+        LocalDate today = LocalDate.now();
+        LocalDate previousMonth = today.minusMonths(1);
+        LocalDate previousMonthStart = previousMonth.withDayOfMonth(1);
+        LocalDate previousMonthEnd = previousMonth.withDayOfMonth(previousMonth.lengthOfMonth()); //length of the month as a last month
 
-        boolean hasTransaction = false;
-        double total = 0;
+        String startDate = previousMonthStart.format(defaultDateFormatter);
+        String endDate = previousMonthEnd.format(defaultDateFormatter);
 
-        for (Transaction transaction : transactions) {
-            LocalDate date = LocalDate.parse(transaction.getDate());
+        ArrayList<Transaction> result = dataService.search("", "", "", startDate, endDate);
 
-            if (!date.isBefore(previousMonthStart) && !date.isAfter(previousMonthEnd)) {
-                hasTransaction = true;
+        if (result.isEmpty()) {
+            System.out.println("You don't have any transaction for previous month.");
+        } else {
+            double total = 0;
+
+            for (Transaction transaction : result) {
                 System.out.println(transaction.formatToCsv());
                 total = transaction.getAmount() + total;
             }
+            System.out.printf("Your total for previous month is: $%.2f%n", total);
         }
-        if (!hasTransaction) {
-            System.out.println("You don't have any transaction for previous month.");
-        }
-        System.out.printf("Your total for previous month is: $%.2f%n", total);
-
     }
 
     private void yearToDateReport() {
-        ArrayList<Transaction> transactions = getSortedTransactions();
-
         Utils.printTitle("Your Year to Date Report");
 
-        boolean hasTransaction = false;
-        double total = 0;
+        LocalDate today = LocalDate.now();
+        LocalDate startOfTheYear = LocalDate.now().withDayOfYear(1);
 
-        for (Transaction transaction : transactions) {
-            LocalDate date = LocalDate.parse(transaction.getDate());
+        String startDate = startOfTheYear.format(defaultDateFormatter);
+        String endDate = today.format(defaultDateFormatter);
 
-            if (!date.isBefore(startOfTheYear) && !date.isAfter(today)) {
-                hasTransaction = true;
+        ArrayList<Transaction> result = dataService.search("", "", "", startDate, endDate);
+
+        if (result.isEmpty()) {
+            System.out.println("You don't have any transaction for this year.");
+        } else {
+            double total = 0;
+
+            for (Transaction transaction : result) {
                 System.out.println(transaction.formatToCsv());
                 total = transaction.getAmount() + total;
             }
+            System.out.printf("Your total for %s is: $%.2f%n", today.getYear(), total);
         }
-        if (!hasTransaction) {
-            System.out.println("You don't have any transaction for this year.");
-        }
-        System.out.printf("Your total for %s is: $%.2f%n", today.getYear(), total);
     }
 
     private void previousYearReport() {
-        ArrayList<Transaction> transactions = getSortedTransactions();
-
         Utils.printTitle("Your Previous Year Report");
+        //previous year
+        LocalDate today = LocalDate.now();
+        LocalDate previousYear = today.minusYears(1);
+        LocalDate previousYearStart = previousYear.withDayOfYear(1);
+        LocalDate previousYearEnd = previousYear.withDayOfYear(previousYear.lengthOfYear()); //length of the year as a last day of the year
 
-        boolean hasTransaction = false;
-        double total = 0;
+        String startDate = previousYearStart.format(defaultDateFormatter);
+        String endDate = previousYearEnd.format(defaultDateFormatter);
 
-        for (Transaction transaction : transactions) {
-            LocalDate date = LocalDate.parse(transaction.getDate());
+        ArrayList<Transaction> result = dataService.search("", "", "", startDate, endDate);
 
-            if (!date.isBefore(previousYearStart) && !date.isAfter(previousYearEnd)) {
-                hasTransaction = true;
+        if (result.isEmpty()) {
+            System.out.println("You don't have any transaction for previous year.");
+        } else {
+            double total = 0;
+
+            for (Transaction transaction : result) {
                 System.out.println(transaction.formatToCsv());
                 total = transaction.getAmount() + total;
             }
+            System.out.printf("Your total for previous year is: $%.2f%n", total);
         }
-        if (!hasTransaction) {
-            System.out.println("You don't have any transaction for previous year.");
-        }
-        System.out.printf("Your total for previous year is: $%.2f%n", total);
     }
 
     private void searchByVendor() {
-        ArrayList<Transaction> transactions = getSortedTransactions();
-        ArrayList<Transaction> foundTransactions = new ArrayList<>();
-
         Utils.printTitle("Search By Vendor");
 
         System.out.println("Please enter your search term: ");
         String searchTerm = scanner.nextLine().trim().toLowerCase();
 
-        System.out.println("Search results: ");
-        for (Transaction transaction : transactions){
-            String vendor = transaction.getVendor().trim().toLowerCase();
-            if (vendor.contains(searchTerm)){
-                foundTransactions.add(transaction);
-            }
-        }
+        ArrayList<Transaction> foundTransactions = dataService.search("", searchTerm, "", "", "");
 
-        if (foundTransactions.isEmpty()){
+        if (foundTransactions.isEmpty()) {
             System.out.println("No results found.");
         } else {
-            for (Transaction transaction : foundTransactions){
+            System.out.println("Search results: ");
+            for (Transaction transaction : foundTransactions) {
                 System.out.println(transaction.formatToCsv());
             }
         }
 
     }
 
-    private void customSearch(){
-        ArrayList<Transaction> transactions = getSortedTransactions();
-        ArrayList<Transaction> customFoundTransactions = new ArrayList<>();
-
+    private void customSearch() {
         Utils.printTitle("Custom Search");
 
         System.out.println("Please enter your search term(s): ");
@@ -259,57 +201,16 @@ public class ReportsScreen {
         System.out.print("Enter Amount: ");
         String amountInput = scanner.nextLine().trim();
 
-        System.out.println("Search results: ");
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        ArrayList<Transaction> customFoundTransactions = dataService.search(
+                description, vendor, amountInput, startDate, endDate
+        );
 
-        for (Transaction transaction : transactions){
-            if (!startDate.isEmpty()){
-                String date = transaction.getDate().trim();
-                LocalDate transactionDate = LocalDate.parse(date, formatter);
-                LocalDate formattedStartDate = LocalDate.parse(startDate.trim(), formatter);
-
-                if (!transactionDate.isBefore(formattedStartDate)){
-                    customFoundTransactions.add(transaction);
-                    continue;
-                }
-            }
-            if (!endDate.isEmpty()){
-                String date = transaction.getDate().trim();
-                LocalDate transactionDate = LocalDate.parse(date, formatter);
-                LocalDate formattedEndDate = LocalDate.parse(endDate.trim(), formatter);
-
-                if (!transactionDate.isAfter(formattedEndDate)){
-                    customFoundTransactions.add(transaction);
-                    continue;
-                }
-            }
-            if (!description.isEmpty()){
-                String tDesc = transaction.getDescription().trim().toLowerCase();
-                if (tDesc.equals(description)){
-                    customFoundTransactions.add(transaction);
-                    continue;
-                }
-            }
-            if (!vendor.isEmpty()){
-                String tVend = transaction.getVendor().trim().toLowerCase();
-                if (tVend.equals(vendor)){
-                    customFoundTransactions.add(transaction);
-                    continue;
-                }
-            }
-            if (!amountInput.isEmpty()){
-                String tAmount = String.valueOf(transaction.getAmount());
-                if (tAmount.equals(amountInput)){
-                    customFoundTransactions.add(transaction);
-                }
-            }
-        }
-
-        if (customFoundTransactions.isEmpty()){
+        if (customFoundTransactions.isEmpty()) {
             System.out.println("No results found.");
         } else {
-            for (Transaction transaction : customFoundTransactions){
+            System.out.println("Search results: ");
+            for (Transaction transaction : customFoundTransactions) {
                 System.out.println(transaction.formatToCsv());
             }
         }

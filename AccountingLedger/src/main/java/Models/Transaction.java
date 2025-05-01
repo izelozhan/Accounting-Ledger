@@ -1,5 +1,8 @@
 package Models;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class Transaction {
     String date;
     String time;
@@ -58,5 +61,10 @@ public class Transaction {
 
     public String formatToCsv(){
         return date + "|" + time + "|" + description + "|" + vendor + "|" + amount;
+    }
+
+    public LocalDate getLocalDate(DateTimeFormatter formatter){
+        String date = getDate().trim();
+        return LocalDate.parse(date, formatter);
     }
 }
