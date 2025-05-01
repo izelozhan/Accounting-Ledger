@@ -27,14 +27,14 @@ All transactions are stored in a file named `transactions.csv`. Each line repres
 
 **Home Menu Screen** <br>
 
-![homescreen](https://github.com/user-attachments/assets/0ae09f54-4d51-4360-9611-a9a07558ce0b)
+![homescreen](https://github.com/user-attachments/assets/5268df21-cdc6-4898-a271-f88101cbc692)
 
 **Ledger Menu Screen** <br>
 
-![ledgerscreen](https://github.com/user-attachments/assets/e73c7ef7-240a-4a3a-b220-d7a9364161f9)
+![ledgerscreen](https://github.com/user-attachments/assets/7cc8373b-0222-448f-87a3-6ea4bb1046a6)
 
 **Reports Menu Screen** <br>
 
-![reportsscreen](https://github.com/user-attachments/assets/6e090723-e26e-4464-8d91-3404c24e4ea5)
+![reportsscreen](https://github.com/user-attachments/assets/5043900c-604e-4713-aad0-e83a147158f7)
 
 ---
