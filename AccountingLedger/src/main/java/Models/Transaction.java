@@ -1,5 +1,7 @@
 package Models;
 
+import Utilities.Utils;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -40,8 +42,14 @@ public class Transaction {
     public String formatToCsv() {
         String date = getTransactionDate().format(dateFormatter);
         String time = getTransactionDate().format(timeFormatter);
-
         return date + "|" + time + "|" + description + "|" + vendor + "|" + amount;
+    }
+
+    public String formatToConsole() {
+        String date = getTransactionDate().format(dateFormatter);
+        String time = getTransactionDate().format(timeFormatter);
+        String priceColor = getAmount() < 0 ? Utils.RED : Utils.GREEN;
+        return date + "|" + time + "|" + description + "|" + vendor + "|" + priceColor + amount + Utils.RESET;
     }
 
 }

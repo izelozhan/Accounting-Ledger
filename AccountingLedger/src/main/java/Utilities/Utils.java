@@ -8,12 +8,12 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Utils {
-    static Scanner scanner = new Scanner(System.in);
-    static String RESET = "\u001B[0m";
-    static String RED = "\u001B[31m";
-    static String GREEN = "\u001B[32m";
-    static String YELLOW = "\u001B[33m";
-    static String BLUE = "\u001B[34m";
+    public static Scanner scanner = new Scanner(System.in);
+    public static String RESET = "\u001B[0m";
+    public static String RED = "\u001B[31m";
+    public static String GREEN = "\u001B[32m";
+    public static String YELLOW = "\u001B[33m";
+    public static String BLUE = "\u001B[34m";
 
     public static void printTitle(String title) {
         System.out.println(BLUE + "\n=== " + title + " ===" + RESET);
@@ -30,7 +30,7 @@ public class Utils {
             double total = 0;
             Utils.printCsvHeader();
             for (Transaction transaction : result) {
-                System.out.println(transaction.formatToCsv());
+                System.out.println(transaction.formatToConsole());
                 total = transaction.getAmount() + total;
             }
 

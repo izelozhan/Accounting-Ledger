@@ -11,6 +11,7 @@ import java.util.ArrayList;
 public class DataService {
     static DateTimeFormatter defaultDateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     static String filePath = "src/main/resources/transactions.csv";
+    boolean sortDescending = true;
 
     private ArrayList<Transaction> readAllTransactions() {
         ArrayList<Transaction> transactions = new ArrayList<>();
@@ -47,7 +48,11 @@ public class DataService {
         ArrayList<Transaction> sortedTransactions = readAllTransactions();
 
         sortedTransactions.sort((transaction1, transaction2) -> {
-            return transaction2.getTransactionDate().compareTo(transaction1.getTransactionDate());
+            if(sortDescending) {
+                return transaction2.getTransactionDate().compareTo(transaction1.getTransactionDate());
+            } else {
+                return transaction1.getTransactionDate().compareTo(transaction2.getTransactionDate());
+            }
         });
         return sortedTransactions;
     }
