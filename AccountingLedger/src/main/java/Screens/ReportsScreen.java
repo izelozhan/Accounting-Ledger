@@ -134,9 +134,7 @@ public class ReportsScreen {
     }
 
     private void customSearch() {
-        Utils.reportTitle("Custom Search");
-
-        System.out.println("Please enter your search term(s): ");
+        System.out.println("\nPlease enter your search term(s): ");
 
         String startDate = Utils.getDateFromTerminal("Enter Start Date (YYYY-MM-DD):", false).trim();
         String endDate = Utils.getDateFromTerminal("Enter End Date (YYYY-MM-DD): ", false).trim();
@@ -144,6 +142,7 @@ public class ReportsScreen {
         String vendor = Utils.getStringFromTerminal("Enter Vendor: ").trim().toLowerCase();
         String amountInput = Utils.getStringFromTerminal("Enter Amount: ").trim();
 
+        Utils.reportTitle("Custom Search");
 
         ArrayList<Transaction> result = dataService.search(
                 description, vendor, amountInput, startDate, endDate, false, false
