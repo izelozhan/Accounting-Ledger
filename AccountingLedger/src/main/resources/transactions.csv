@@ -1,63 +1,21 @@
 date|time|description|vendor|amount
 2025-04-29|09:44:11|testSave|Izel|12.0
-2025-04-29|09:44:42|testSave2|Izel|10.0
-2025-04-29|09:52:44|izelTest|izel|-45.0
-2025-04-29|11:18:30|Test|Izel|100.0
-2025-04-29|13:28:23|pay for training YUU|YUU|5.0
-2025-04-28|08:12:01|Coffee|Starbucks|-4.25
-2025-04-28|12:30:15|Lunch Meeting|Chick-fil-A|-12.50
-2025-04-28|15:42:17|Client Payment|Acme Inc|200.00
-2025-04-27|09:10:30|Monthly Subscription|Spotify|-9.99
-2025-04-27|11:50:00|Freelance Work|Fiverr|85.00
-2025-04-26|14:22:19|Training Session|SkillShare|-30.00
-2025-04-26|16:00:00|Refund|Amazon|15.50
-2025-04-25|18:12:35|Grocery|Trader Joe's|-65.32
 2025-04-25|20:45:11|Deposit|Izel|500.00
-2025-04-24|07:59:59|Parking Fee|City of Austin|-3.00
-2025-04-24|09:00:00|Work Bonus|Company Inc|150.00
-2025-04-23|10:25:00|Phone Bill|T-Mobile|-50.00
 2025-04-22|11:40:22|Donation|Local Shelter|-20.00
 2025-04-21|12:30:30|Online Purchase|eBay|-25.75
 2025-04-21|14:35:17|Transfer from Savings|Chase|300.00
 2025-04-20|09:05:15|Dinner|Olive Garden|-28.40
-2025-04-19|08:00:00|Yoga Class|ZenFit|-12.00
-2025-04-18|13:33:12|Book Purchase|Barnes & Noble|-17.99
-2025-04-18|17:45:55|Paycheck|Izel Inc|1200.00
-2025-04-17|11:25:00|Taxi|Uber|-16.50
-2025-04-16|09:55:45|Coffee Meeting|The Brew House|-6.10
-2025-04-15|12:00:00|Payment for Tutoring|Izel|40.00
-2025-04-14|18:30:20|Pet Supplies|Petco|-34.99
-2025-04-13|10:10:10|Fuel|Shell Gas|-45.00
-2025-04-12|13:15:33|Side Project Payout|Remote OK|250.00
-2025-03-30|07:50:00|Breakfast|Denny’s|-11.20
 2025-03-29|08:45:01|Training Program|CodeAcademy|-75.00
 2025-03-28|16:20:00|Payment from Client|WebCo|300.00
 2025-03-28|20:00:00|Pizza Night|Domino's|-18.00
 2025-03-27|11:45:33|Doctor Visit|HealthCare Inc|-90.00
 2025-03-26|12:30:00|Gym Fee|Gold's Gym|-45.00
-2025-03-25|13:50:20|Amazon Payout|Amazon|102.99
-2025-03-25|15:00:00|Dinner|Sushi Sake|-40.00
-2025-03-24|08:30:10|Haircut|SuperCuts|-22.00
-2025-03-23|10:00:00|Monthly Rent|Landlord|-900.00
-2025-03-22|09:15:25|Tax Refund|IRS|1200.00
-2025-03-21|14:25:00|Public Transport|Metro|-2.75
-2024-04-28|16:33:00|Freelance Invoice|DesignCo|400.00
-2024-04-27|12:00:00|Payment for Editing|Upwork|75.00
 2024-04-26|13:00:00|Laptop Purchase|Best Buy|-850.00
-2024-04-25|08:10:10|Coffee|Local Cafe|-3.75
-2024-04-24|19:30:00|Grocery|Walmart|-96.25
-2024-04-23|10:45:00|Car Wash|AutoClean|-14.00
-2024-04-22|14:00:00|Flight Booking|Delta Airlines|-325.00
-2024-04-21|18:25:00|Freelance Gig|TechBlog|220.00
-2024-04-20|12:30:00|Online Course|Udemy|-12.99
 2024-04-19|09:30:00|Gift|Izel|50.00
-2024-04-18|16:15:00|Electric Bill|Austin Energy|-100.00
-2024-04-17|11:45:00|Payment for Logo Design|Client X|180.00
 2025-04-30|22:59:22|test|alper|10.0
 2025-04-30|23:32:11|izel|izel|12.0
 2025-05-01|13:45:37|test colors|izel|-10.0
-2025-05-01|13:52:56|color-test|izel|24.0
-2025-05-01|16:03:37|izel|izel|-34.0
-2025-05-01|21:52:06|hele|he|10.0
 2025-05-01|23:13:49|Description|Vendor|100.0
 2025-05-02|00:10:38|izel|testing|1.0
+2025-05-02|08:56:04|Description|Vendor|10.0
+2025-05-02|08:56:21|Description for Payment|Vendor|-100.0

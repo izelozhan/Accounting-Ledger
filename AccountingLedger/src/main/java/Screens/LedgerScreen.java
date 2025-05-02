@@ -62,16 +62,19 @@ public class LedgerScreen {
 
     public void showAllTransactions() {
         ArrayList<Transaction> transactions = dataService.getSortedTransactions();
+        Utils.reportTitle("All Transactions");
         Utils.printTransactions(transactions);
     }
 
     private void showOnlyDeposits() {
         ArrayList<Transaction> deposits = dataService.search("","","","","",false,true);
+        Utils.reportTitle("Deposits");
         Utils.printTransactions(deposits);
     }
 
     private void showOnlyPayments() {
         ArrayList<Transaction> payments = dataService.search("","","","","",true,false);
+        Utils.reportTitle("Payments");
         Utils.printTransactions(payments);
     }
 

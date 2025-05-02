@@ -65,7 +65,7 @@ public class ReportsScreen {
     }
 
     private void monthToDateReport() {
-        Utils.printTitle("Your Month to Date Report");
+        Utils.reportTitle("Your Month to Date Report");
 
         LocalDate today = LocalDate.now();
         LocalDate startOfTheMonth = LocalDate.now().withDayOfMonth(1);
@@ -73,13 +73,13 @@ public class ReportsScreen {
         String startDate = startOfTheMonth.format(defaultDateFormatter);
         String endDate = today.plusDays(1).format(defaultDateFormatter);
 
-        ArrayList<Transaction> result = dataService.search("", "", "", startDate, endDate, false,false);
+        ArrayList<Transaction> result = dataService.search("", "", "", startDate, endDate, false, false);
 
         Utils.printTransactions(result);
     }
 
     private void previousMonthReport() {
-        Utils.printTitle("Your Previous Month Report");
+        Utils.reportTitle("Your Previous Month Report");
         //previous month
         LocalDate today = LocalDate.now();
         LocalDate previousMonth = today.minusMonths(1);
@@ -89,14 +89,14 @@ public class ReportsScreen {
         String startDate = previousMonthStart.format(defaultDateFormatter);
         String endDate = previousMonthEnd.format(defaultDateFormatter);
 
-        ArrayList<Transaction> result = dataService.search("", "", "", startDate, endDate, false,false);
+        ArrayList<Transaction> result = dataService.search("", "", "", startDate, endDate, false, false);
 
         Utils.printTransactions(result);
 
     }
 
     private void yearToDateReport() {
-        Utils.printTitle("Your Year to Date Report");
+        Utils.reportTitle("Your Year to Date Report");
 
         LocalDate today = LocalDate.now();
         LocalDate startOfTheYear = LocalDate.now().withDayOfYear(1);
@@ -110,7 +110,7 @@ public class ReportsScreen {
     }
 
     private void previousYearReport() {
-        Utils.printTitle("Your Previous Year Report");
+        Utils.reportTitle("Your Previous Year Report");
         //previous year
         LocalDate today = LocalDate.now();
         LocalDate previousYear = today.minusYears(1);
@@ -126,22 +126,20 @@ public class ReportsScreen {
     }
 
     private void searchByVendor() {
-        Utils.printTitle("Search By Vendor");
-
         String searchTerm = Utils.getStringFromTerminal("Please enter your search term: ").trim().toLowerCase();
 
-        ArrayList<Transaction> result = dataService.search("", searchTerm, "", "", "",false, false);
-
+        Utils.reportTitle("Search By Vendor");
+        ArrayList<Transaction> result = dataService.search("", searchTerm, "", "", "", false, false);
         Utils.printTransactions(result);
     }
 
     private void customSearch() {
-        Utils.printTitle("Custom Search");
+        Utils.reportTitle("Custom Search");
 
         System.out.println("Please enter your search term(s): ");
 
-        String startDate = Utils.getDateFromTerminal("Enter Start Date (YYYY-MM-DD):",false).trim();
-        String endDate = Utils.getDateFromTerminal("Enter End Date (YYYY-MM-DD): ",false).trim();
+        String startDate = Utils.getDateFromTerminal("Enter Start Date (YYYY-MM-DD):", false).trim();
+        String endDate = Utils.getDateFromTerminal("Enter End Date (YYYY-MM-DD): ", false).trim();
         String description = Utils.getStringFromTerminal("Enter Description: ").trim().toLowerCase();
         String vendor = Utils.getStringFromTerminal("Enter Vendor: ").trim().toLowerCase();
         String amountInput = Utils.getStringFromTerminal("Enter Amount: ").trim();
@@ -153,8 +151,6 @@ public class ReportsScreen {
 
         Utils.printTransactions(result);
     }
-
-
 
 
 }

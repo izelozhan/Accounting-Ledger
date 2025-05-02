@@ -14,11 +14,14 @@ public class Utils {
     public static String GREEN = "\u001B[32m";
     public static String YELLOW = "\u001B[33m";
     public static String BLUE = "\u001B[34m";
+    public static String CYAN = "\u001B[36m";
 
     public static void printTitle(String title) {
         System.out.println(BLUE + "\n=== " + title + " ===" + RESET);
     }
-
+    public static void reportTitle(String title) {
+        System.out.println(CYAN + "\n== " + title + " ==" + RESET);
+    }
     public static void printCsvHeader() {
         System.out.println("date|time|description|vendor|amount");
     }
