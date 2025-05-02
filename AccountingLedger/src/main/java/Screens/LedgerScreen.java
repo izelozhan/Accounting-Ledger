@@ -7,8 +7,14 @@ import Services.DataService;
 import Utilities.Utils;
 
 public class LedgerScreen {
-    ReportsScreen reports = new ReportsScreen();
-    DataService dataService = new DataService();
+    final ReportsScreen reports;
+    final DataService dataService;
+
+    public LedgerScreen() {
+        reports = new ReportsScreen();
+        dataService = new DataService();
+    }
+
 
     public void showLedgerScreenOptionsMenu() {
         Utils.printTitle("LEDGER SCREEN");

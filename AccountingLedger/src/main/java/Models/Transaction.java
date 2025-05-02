@@ -1,70 +1,47 @@
 package Models;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class Transaction {
-    String date;
-    String time;
+    static DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    static DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+    static DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+    LocalDateTime transactionDate;
     String description;
     String vendor;
     double amount;
 
-
     public Transaction(String date, String time, String description, String vendor, double amount) {
-        this.date = date;
-        this.time = time;
         this.description = description;
         this.vendor = vendor;
         this.amount = amount;
+        this.transactionDate = LocalDateTime.parse(date + " " + time, dateTimeFormatter);
     }
 
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
+    public LocalDateTime getTransactionDate() {
+        return transactionDate;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public String getVendor() {
         return vendor;
-    }
-
-    public void setVendor(String vendor) {
-        this.vendor = vendor;
     }
 
     public double getAmount() {
         return amount;
     }
 
-    public void setAmount(double amount) {
-        this.amount = amount;
-    }
+    public String formatToCsv() {
+        String date = getTransactionDate().format(dateFormatter);
+        String time = getTransactionDate().format(timeFormatter);
 
-    public String formatToCsv(){
         return date + "|" + time + "|" + description + "|" + vendor + "|" + amount;
     }
 
-    public LocalDate getLocalDate(DateTimeFormatter formatter){
-        String date = getDate().trim();
-        return LocalDate.parse(date, formatter);
-    }
 }

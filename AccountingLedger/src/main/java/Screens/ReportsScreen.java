@@ -9,8 +9,14 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class ReportsScreen {
-    DataService dataService = new DataService();
-    DateTimeFormatter defaultDateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    final DataService dataService;
+    final DateTimeFormatter defaultDateFormatter;
+
+    public ReportsScreen() {
+        dataService = new DataService();
+        defaultDateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    }
+
 
     public void showReportsScreenOptionsMenu() {
         Utils.printTitle("REPORTS SCREEN");
@@ -65,12 +71,11 @@ public class ReportsScreen {
         LocalDate startOfTheMonth = LocalDate.now().withDayOfMonth(1);
 
         String startDate = startOfTheMonth.format(defaultDateFormatter);
-        String endDate = today.format(defaultDateFormatter);
+        String endDate = today.plusDays(1).format(defaultDateFormatter);
 
         ArrayList<Transaction> result = dataService.search("", "", "", startDate, endDate, false,false);
 
         Utils.printTransactions(result);
-
     }
 
     private void previousMonthReport() {

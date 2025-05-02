@@ -9,10 +9,17 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 public class HomeScreen {
-    DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-    DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-    LedgerScreen ledger = new LedgerScreen();
-    DataService dataService = new DataService();
+    final DateTimeFormatter dateFormatter;
+    final DateTimeFormatter timeFormatter;
+    final LedgerScreen ledger;
+    final DataService dataService;
+
+    public HomeScreen() {
+        dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+        ledger = new LedgerScreen();
+        dataService = new DataService();
+    }
 
     public void showHomeScreenOptionsMenu() {
         Utils.printTitle("ACCOUNTING LEDGER APPLICATION");
@@ -87,7 +94,6 @@ public class HomeScreen {
         Transaction transaction = createTransaction(true);
         dataService.saveTransaction(transaction);
     }
-
 
     public void showLedgerScreen() {
         boolean isExitFromLedger = false;
