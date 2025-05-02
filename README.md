@@ -28,8 +28,22 @@ All transactions are stored in a file named `transactions.csv`. Each line repres
 **Home Screen** <br>
 
 The Home Screen gives the user a clear way to add deposits or payments by entering the description, vendor, and amount. It also allows switching to the Ledger to view transactions or exiting the app safely. 
- 
-![homescreen](https://github.com/user-attachments/assets/5268df21-cdc6-4898-a271-f88101cbc692)
+
+![homescreen](https://github.com/user-attachments/assets/cee49e97-3f9e-434d-8fcf-da6b2bfd7fbf)
+
+_**How to Add a Deposit/Make Payment?**_
+
+To add a deposit/make a payment, follow these steps:
+
+1. From Home Screen, select the option to add a deposit/make a payment.
+2. Enter the description of the transaction.
+3. Enter the vendor name.
+4. Enter the amount to deposit.
+5. Once all fields are completed, the application will save the transaction, display a success message and returns home screen.
+
+   
+![addDeposit](https://github.com/user-attachments/assets/c4d6d391-43f5-4ba5-8f2b-8c2a29c2cd0d)
+
 
 **Ledger Screen** <br>
 
@@ -37,11 +51,40 @@ The Ledger Screen gives the user clear filter options to view all transactions, 
 
 ![ledgerscreen](https://github.com/user-attachments/assets/7cc8373b-0222-448f-87a3-6ea4bb1046a6)
 
+_**How can I see my deposits/payments?**_
+
+To see your transactions, follow these steps:
+
+1. From Home Screen, select the option to see Ledger Screen.
+2. Choose All/Deposits or Payments.
+3. Your transactions will be shown from newest to oldest in the following CSV format.
+   
+![ledgerScreen1](https://github.com/user-attachments/assets/3e669b4e-5269-4cc9-9ab0-16a82ac4cc32)
+
+
 **Reports Screen** <br>
 
 The Reports Screen allows users to filter transactions by date, vendor, or custom criteria like Start Date, End Date, Description, Vendor, and Amount. Reports can be generated for the current month, previous month, year-to-date, or previous year. Users can apply filters only on the fields they enter.
 
 ![reportsscreen](https://github.com/user-attachments/assets/5043900c-604e-4713-aad0-e83a147158f7)
+
+_**How it works?**_
+
+1. **Month To Date** – Shows all transactions from the current month.
+2. **Previous Month** – Shows all transactions from the last month.
+3. **Year To Date** – Shows all transactions from the current year.
+4. **Previous Year** – Shows all transactions from the last year.
+5. **Search by Vendor** – You’ll be asked to enter a vendor name, and it will show all related transactions.
+6. **Custom Search** – This option lets you search with more control. You can enter:
+   - Start Date
+   - End Date
+   - Description
+   - Vendor
+   - Amount
+   You can leave any of these fields blank. The system will only filter based on the fields you fill in.
+
+![customSearch](https://github.com/user-attachments/assets/91602906-f2c0-42a4-8d9b-d908521475af)
+
 
 ---
 
