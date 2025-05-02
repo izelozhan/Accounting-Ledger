@@ -59,7 +59,7 @@ To see your transactions, follow these steps:
 2. Choose All/Deposits or Payments.
 3. Your transactions will be shown from newest to oldest in the following CSV format.
    
-![ledgerScreen1](https://github.com/user-attachments/assets/3e669b4e-5269-4cc9-9ab0-16a82ac4cc32)
+![2025-05-02 00_13_49-AccountingLedger – DataService](https://github.com/user-attachments/assets/b302a1c8-0a14-478a-afab-b6a964719f01)
 
 
 **Reports Screen** <br>
@@ -83,7 +83,7 @@ _**How it works?**_
    - Amount
    You can leave any of these fields blank. The system will only filter based on the fields you fill in.
 
-![customSearch](https://github.com/user-attachments/assets/91602906-f2c0-42a4-8d9b-d908521475af)
+![2025-05-02 00_16_40-AccountingLedger – DataService](https://github.com/user-attachments/assets/497fc87e-6a23-4a94-ae36-911495dee4a3)
 
 
 ---
