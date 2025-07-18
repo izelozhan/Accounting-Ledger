@@ -2,6 +2,7 @@ package Screens;
 
 import Models.Transaction;
 import Services.DataService;
+import UserInterface.UI;
 import Utilities.Utils;
 
 import java.time.LocalDate;
@@ -21,29 +22,23 @@ public class HomeScreen {
         dataService = new DataService();
     }
 
-    public void showHomeScreenOptionsMenu() {
-        Utils.printTitle("ACCOUNTING LEDGER APPLICATION");
-        System.out.println("Welcome to our Accounting Ledger Application! Select an option to start!");
-        System.out.println("D: Add Deposit");
-        System.out.println("P: Make Payment (Debit)");
-        System.out.println("L: Ledger");
-        System.out.println("X: Exit \n");
-    }
-
     public String receiveUserOption() {
         //take user's option and assign it to a new String.
-        String selectedOption = "INVALID";
+        UI.showHomeScreenOptionsMenu();
 
-        while (selectedOption.equals("INVALID")) {
+        String selectedOption = "INVALID";
+        String invalid = "INVALID";
+
+        while (selectedOption.equals(invalid)) {
             String userOption = Utils.getStringFromTerminal("Please choose one of the options.").toUpperCase();
             selectedOption = switch (userOption) {
                 case "D" -> "ADD_DEPOSIT";
                 case "P" -> "MAKE_PAYMENT";
                 case "L" -> "LEDGER";
                 case "X" -> "EXIT";
-                default -> "INVALID";
+                default -> invalid;
             };
-            if (selectedOption.equals("INVALID")) {
+            if (selectedOption.equals(invalid)) {
                 Utils.printError("Invalid option. Please enter D, P, L or X.");
             }
         }
@@ -98,7 +93,7 @@ public class HomeScreen {
     public void showLedgerScreen() {
         boolean isExitFromLedger = false;
         while (!isExitFromLedger) {
-            ledger.showLedgerScreenOptionsMenu();
+            UserInterface.UI.showLedgerScreenOptionsMenu();
             String userOption = ledger.receiveUserOption();
             isExitFromLedger = ledger.performUserOption(userOption);
         }

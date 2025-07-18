@@ -6,7 +6,7 @@ public class Main {
         HomeScreen home = new HomeScreen();
         boolean isExitFromHome = false;
         while (!isExitFromHome) {
-            home.showHomeScreenOptionsMenu();
+            UserInterface.UI.showHomeScreenOptionsMenu();
             String userOption = home.receiveUserOption();
             isExitFromHome = home.performUserOption(userOption);
         }

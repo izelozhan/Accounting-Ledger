@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import Models.Transaction;
 import Services.DataService;
+import UserInterface.UI;
 import Utilities.Utils;
 
 public class LedgerScreen {
@@ -15,18 +16,11 @@ public class LedgerScreen {
         dataService = new DataService();
     }
 
-    public void showLedgerScreenOptionsMenu() {
-        Utils.printTitle("LEDGER SCREEN");
-        System.out.println("Select option to start: ");
-        System.out.println("A: All");
-        System.out.println("D: Deposits");
-        System.out.println("P: Payments");
-        System.out.println("R: Reports");
-        System.out.println("H: Home \n");
-    }
 
     public String receiveUserOption() {
         //take user's option and assign it to a new String.
+        UserInterface.UI.showLedgerScreenOptionsMenu();
+
         String selectedOption = "INVALID";
         String invalid = "INVALID";
 
@@ -79,7 +73,7 @@ public class LedgerScreen {
     }
 
     private void showReportsScreen() {
-        reports.showReportsScreenOptionsMenu();
+        UI.showReportsScreenOptionsMenu();
         String userOption = reports.receiveUserOption();
         reports.performUserOption(userOption);
     }
