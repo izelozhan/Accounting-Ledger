@@ -97,7 +97,7 @@ public class HomeScreen {
 
     public void showLedgerScreen() {
         boolean isExitFromLedger = false;
-        while(!isExitFromLedger) {
+        while (!isExitFromLedger) {
             ledger.showLedgerScreenOptionsMenu();
             String userOption = ledger.receiveUserOption();
             isExitFromLedger = ledger.performUserOption(userOption);

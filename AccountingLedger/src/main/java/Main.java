@@ -1,5 +1,4 @@
 import Screens.HomeScreen;
-import Utilities.Utils;
 
 public class Main {
 

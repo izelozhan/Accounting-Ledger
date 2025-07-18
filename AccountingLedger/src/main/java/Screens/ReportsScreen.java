@@ -17,7 +17,6 @@ public class ReportsScreen {
         defaultDateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     }
 
-
     public void showReportsScreenOptionsMenu() {
         Utils.printTitle("REPORTS SCREEN");
         System.out.println("Select option to start: ");

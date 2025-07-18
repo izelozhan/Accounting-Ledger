@@ -19,9 +19,11 @@ public class Utils {
     public static void printTitle(String title) {
         System.out.println(BLUE + "\n=== " + title + " ===" + RESET);
     }
+
     public static void reportTitle(String title) {
         System.out.println(CYAN + "\n== " + title + " ==" + RESET);
     }
+
     public static void printCsvHeader() {
         System.out.println("date|time|description|vendor|amount");
     }
