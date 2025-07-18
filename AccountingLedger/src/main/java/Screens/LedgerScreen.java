@@ -7,14 +7,13 @@ import Services.DataService;
 import Utilities.Utils;
 
 public class LedgerScreen {
-    final ReportsScreen reports;
-    final DataService dataService;
+    private final ReportsScreen reports;
+    private final DataService dataService;
 
     public LedgerScreen() {
         reports = new ReportsScreen();
         dataService = new DataService();
     }
-
 
     public void showLedgerScreenOptionsMenu() {
         Utils.printTitle("LEDGER SCREEN");
@@ -29,8 +28,9 @@ public class LedgerScreen {
     public String receiveUserOption() {
         //take user's option and assign it to a new String.
         String selectedOption = "INVALID";
+        String invalid = "INVALID";
 
-        while (selectedOption.equals("INVALID")) {
+        while (selectedOption.equals(invalid)) {
             String userOption = Utils.getStringFromTerminal("Please choose one of the options.").toUpperCase();
             selectedOption = switch (userOption) {
                 case "A" -> "ALL";
@@ -38,9 +38,9 @@ public class LedgerScreen {
                 case "P" -> "PAYMENTS";
                 case "R" -> "REPORTS";
                 case "H" -> "HOME";
-                default -> "INVALID";
+                default -> invalid;
             };
-            if (selectedOption.equals("INVALID")) {
+            if (selectedOption.equals(invalid)) {
                 Utils.printError("Invalid option. Please enter A, D, P, R or H.");
             }
         }
@@ -60,7 +60,7 @@ public class LedgerScreen {
         return false;
     }
 
-    public void showAllTransactions() {
+    private void showAllTransactions() {
         ArrayList<Transaction> transactions = dataService.getSortedTransactions();
         Utils.reportTitle("All Transactions");
         Utils.printTransactions(transactions);

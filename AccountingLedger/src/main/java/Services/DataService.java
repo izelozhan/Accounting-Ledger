@@ -9,9 +9,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class DataService {
-    static DateTimeFormatter defaultDateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-    static String filePath = "src/main/resources/transactions.csv";
-    boolean sortDescending = true;
+    private static DateTimeFormatter defaultDateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private static String filePath = "src/main/resources/transactions.csv";
+    private boolean sortDescending = true;
 
     private ArrayList<Transaction> readAllTransactions() {
         ArrayList<Transaction> transactions = new ArrayList<>();

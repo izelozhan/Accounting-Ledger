@@ -9,10 +9,10 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 public class HomeScreen {
-    final DateTimeFormatter dateFormatter;
-    final DateTimeFormatter timeFormatter;
-    final LedgerScreen ledger;
-    final DataService dataService;
+    private final DateTimeFormatter dateFormatter;
+    private final DateTimeFormatter timeFormatter;
+    private final LedgerScreen ledger;
+    private final DataService dataService;
 
     public HomeScreen() {
         dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -62,7 +62,7 @@ public class HomeScreen {
         return false;
     }
 
-    public Transaction createTransaction(boolean isPayment) {
+    private Transaction createTransaction(boolean isPayment) {
         System.out.println("Please enter the following information:");
 
         String description = Utils.getStringFromTerminal("1) Enter description: ");
@@ -83,13 +83,13 @@ public class HomeScreen {
         return new Transaction(formattedDate, formattedTime, description, vendor, amount);
     }
 
-    public void addDeposit() {
+    private void addDeposit() {
         Utils.printTitle("ADD DEPOSIT");
         Transaction transaction = createTransaction(false);
         dataService.saveTransaction(transaction);
     }
 
-    public void makePayment() {
+    private void makePayment() {
         Utils.printTitle("MAKE PAYMENT");
         Transaction transaction = createTransaction(true);
         dataService.saveTransaction(transaction);

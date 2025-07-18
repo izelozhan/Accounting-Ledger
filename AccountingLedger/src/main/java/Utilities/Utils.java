@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Utils {
-    public static Scanner scanner = new Scanner(System.in);
+    private static Scanner scanner = new Scanner(System.in);
     public static String RESET = "\u001B[0m";
     public static String RED = "\u001B[31m";
     public static String GREEN = "\u001B[32m";
