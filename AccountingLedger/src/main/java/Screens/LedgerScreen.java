@@ -1,36 +1,42 @@
 package Screens;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import Models.Transaction;
 import Services.DataService;
+import Services.TransactionDao;
+import UserInterface.UI;
 import Utilities.Utils;
+import org.apache.commons.dbcp2.BasicDataSource;
 
 public class LedgerScreen {
-    final ReportsScreen reports;
-    final DataService dataService;
+    private final ReportsScreen reports;
+    private final DataService dataService;
+	//Create new fields to use the transactionDao and to set up a datasource
+	static BasicDataSource dataSource = new BasicDataSource();
+	static TransactionDao transactionDao = new TransactionDao(dataSource);
 
     public LedgerScreen() {
         reports = new ReportsScreen();
         dataService = new DataService();
     }
 
-
-    public void showLedgerScreenOptionsMenu() {
-        Utils.printTitle("LEDGER SCREEN");
-        System.out.println("Select option to start: ");
-        System.out.println("A: All");
-        System.out.println("D: Deposits");
-        System.out.println("P: Payments");
-        System.out.println("R: Reports");
-        System.out.println("H: Home \n");
-    }
+	//Method to set the properties to connect to the accountledger_v2 database.
+	public static void setDataSource() {
+		dataSource.setUrl("jdbc:mysql://localhost:3306/accountingledger_v2");
+		dataSource.setUsername("root"); //!<--- You will need to change this to whatever username you use for SQL
+		dataSource.setPassword(System.getenv("SQL_PASSWORD")); //!<--- You will need to change this to whatever password you use for SQL
+	}
 
     public String receiveUserOption() {
         //take user's option and assign it to a new String.
-        String selectedOption = "INVALID";
+        UserInterface.UI.showLedgerScreenOptionsMenu();
 
-        while (selectedOption.equals("INVALID")) {
+        String selectedOption = "INVALID";
+        String invalid = "INVALID";
+
+        while (selectedOption.equals(invalid)) {
             String userOption = Utils.getStringFromTerminal("Please choose one of the options.").toUpperCase();
             selectedOption = switch (userOption) {
                 case "A" -> "ALL";
@@ -38,9 +44,9 @@ public class LedgerScreen {
                 case "P" -> "PAYMENTS";
                 case "R" -> "REPORTS";
                 case "H" -> "HOME";
-                default -> "INVALID";
+                default -> invalid;
             };
-            if (selectedOption.equals("INVALID")) {
+            if (selectedOption.equals(invalid)) {
                 Utils.printError("Invalid option. Please enter A, D, P, R or H.");
             }
         }
@@ -60,10 +66,25 @@ public class LedgerScreen {
         return false;
     }
 
-    public void showAllTransactions() {
-        ArrayList<Transaction> transactions = dataService.getSortedTransactions();
-        Utils.reportTitle("All Transactions");
-        Utils.printTransactions(transactions);
+    private void showAllTransactions() {
+		//Call setDataSource method to get connection
+		setDataSource();
+//        ArrayList<Transaction> transactions = dataService.getSortedTransactions();
+
+		//New List that uses the Dao instead of the dataService class
+		List<Transaction> transactionList = transactionDao.getAll();
+
+		//Check if list is not empty
+		if(!transactionList.isEmpty()) {
+			//for each transaction in list use Transaction.printData() method to display them in the console.
+			for(Transaction transaction : transactionList) {
+				transaction.printData();
+			}
+		} else {
+			System.out.println("There are no transactions to display...");
+		}
+//        Utils.reportTitle("All Transactions");
+//        Utils.printTransactions((ArrayList<Transaction>) transactionList);
     }
 
     private void showOnlyDeposits() {
@@ -79,7 +100,7 @@ public class LedgerScreen {
     }
 
     private void showReportsScreen() {
-        reports.showReportsScreenOptionsMenu();
+        UI.showReportsScreenOptionsMenu();
         String userOption = reports.receiveUserOption();
         reports.performUserOption(userOption);
     }

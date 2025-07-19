@@ -9,9 +9,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class DataService {
-    static DateTimeFormatter defaultDateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-    static String filePath = "src/main/resources/transactions.csv";
-    boolean sortDescending = true;
+    private static DateTimeFormatter defaultDateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private static String filePath = "src/main/resources/transactions.csv";
+    private boolean sortDescending = true;
 
     private ArrayList<Transaction> readAllTransactions() {
         ArrayList<Transaction> transactions = new ArrayList<>();
@@ -25,7 +25,6 @@ public class DataService {
                 if (parts[0].equals("date")) {
                     continue;
                 }
-
                 String date = parts[0];
                 String time = parts[1];
                 String description = parts[2];
@@ -34,21 +33,19 @@ public class DataService {
 
                 transactions.add(new Transaction(date, time, description, vendor, amount));
             }
-
             bufferedReader.close();
-
-
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
         return transactions;
     }
 
+    //IDataService
     public ArrayList<Transaction> getSortedTransactions() {
         ArrayList<Transaction> sortedTransactions = readAllTransactions();
 
         sortedTransactions.sort((transaction1, transaction2) -> {
-            if(sortDescending) {
+            if (sortDescending) {
                 return transaction2.getTransactionDate().compareTo(transaction1.getTransactionDate());
             } else {
                 return transaction1.getTransactionDate().compareTo(transaction2.getTransactionDate());
@@ -57,6 +54,7 @@ public class DataService {
         return sortedTransactions;
     }
 
+    //IDataService
     public void saveTransaction(Transaction transaction) {
         File file = new File(filePath);
 
@@ -81,6 +79,7 @@ public class DataService {
         }
     }
 
+    //IDataService
     public ArrayList<Transaction> search(
             String description,
             String vendor,

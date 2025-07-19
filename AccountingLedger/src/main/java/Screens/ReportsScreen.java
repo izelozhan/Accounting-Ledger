@@ -2,6 +2,7 @@ package Screens;
 
 import Models.Transaction;
 import Services.DataService;
+import UserInterface.UI;
 import Utilities.Utils;
 
 import java.time.LocalDate;
@@ -18,20 +19,9 @@ public class ReportsScreen {
     }
 
 
-    public void showReportsScreenOptionsMenu() {
-        Utils.printTitle("REPORTS SCREEN");
-        System.out.println("Select option to start: ");
-        System.out.println("1) Month to Date");
-        System.out.println("2) Previous Month");
-        System.out.println("3) Year to Date");
-        System.out.println("4) Previous Year");
-        System.out.println("5) Search by Vendor");
-        System.out.println("6) Custom Search");
-        System.out.println("0) Back \n");
-    }
-
     public String receiveUserOption() {
         //take user's option and assign it to a new String.
+        UI.showReportsScreenOptionsMenu();
         String selectedOption = "INVALID";
 
         while (selectedOption.equals("INVALID")) {
