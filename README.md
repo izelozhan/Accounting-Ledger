@@ -194,5 +194,8 @@ This made the filtering logic much more maintainable and reusable across differe
     }
 ```
 
+## Version 2 
+
+We formed a small team of three to create Version 2 of this project, which I had previously worked on. Together, we discussed areas for improvement and explored how we could apply object-oriented programming (OOP) principles more effectively. Our focus has been on enhancing the overall structure, integrating a SQL database, and organizing the project with cleaner, modular code.
 
 
